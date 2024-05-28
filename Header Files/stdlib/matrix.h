@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <stdlib.h>
+
 /* Start matrix any size */
 
 typedef struct matfSized_t
@@ -10,27 +12,10 @@ typedef struct matfSized_t
 	unsigned char columns;
 } matfSized;
 
-matfSized initMatfSized(unsigned char rows, unsigned char columns)
-{
-	matfSized newMatf;
-	newMatf.rows = rows;
-	newMatf.columns = columns;
-	newMatf.matrix = calloc((rows * columns), sizeof(float));
-	return newMatf;
-} 
+matfSized initMatfSized(unsigned char rows, unsigned char columns);
+void initMatfSizedIdentity(matfSized* matf);
+void matfSizedFree(matfSized* matf);
 
-void initMatfSizedIdentity(matfSized* matf)
-{
-	if (matf->rows == matf->columns && matf->rows > 1)
-	{
-		unsigned char jumpedRows = 0;
-		for (unsigned char row = 0; row < matf->rows; row++)
-		{
-			matf->matrix[(jumpedRows * matf->columns) + jumpedRows] = 1.0f;
-			jumpedRows++; 
-		}
-	}
-}
 
 /* End matrix any size */
 

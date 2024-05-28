@@ -40,18 +40,39 @@ int main(void)
 	matfSized matf = initMatfSized(6, 6);
 	initMatfSizedIdentity(&matf);
 
-	printf(" SizeMatRowsT :: %d ;\n", matf.rows);
-	printf(" SizeMatColumnsT :: %d ;\n\n", matf.columns);
+	printf(" SizeMatRowsT : %d ;\n", matf.rows);
+	printf(" SizeMatColumnsT : %d ;\n\n", matf.columns);
 
 	for (unsigned char row = 0; row < matf.rows; row++)
 	{
 		printf(" ");
 		for (unsigned char column = 0; column < matf.columns; column++)
 		{
-			printf("%.0f ", matf.matrix[(row * matf.rows) + column]);
+			printf("%.0f ", matf.matrix[(row * matf.columns) + column]);
 		}
 		printf("\n");
 	}
 	printf("\n");
+	
+	int top = 0;
+	int testValue1 = 5;
+	int testValue2 = 111;
+	
+	stack stackTest = initStack(10, sizeof(int));
+	
+	pushStack(&stackTest, &testValue1);
+	pushStack(&stackTest, &testValue2);
+	topStack(&stackTest, &top);
+
+	printf(" Top : %d ;\n", top);
+
+	popStack(&stackTest, &top);
+	topStack(&stackTest, &top);
+
+	printf(" Top : %d ;\n", top);
+
+	freeStack(&stackTest);
+	matfSizedFree(&matf);
+
 	return 0;
 }
