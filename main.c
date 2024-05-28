@@ -36,5 +36,22 @@ int main(void)
 		printf("\n");
 	}
 	printf("\n");
+
+	matfSized matf = initMatfSized(6, 6);
+	initMatfSizedIdentity(&matf);
+
+	printf(" SizeMatRowsT :: %d ;\n", matf.rows);
+	printf(" SizeMatColumnsT :: %d ;\n\n", matf.columns);
+
+	for (unsigned char row = 0; row < matf.rows; row++)
+	{
+		printf(" ");
+		for (unsigned char column = 0; column < matf.columns; column++)
+		{
+			printf("%.0f ", matf.matrix[(row * matf.rows) + column]);
+		}
+		printf("\n");
+	}
+	printf("\n");
 	return 0;
 }
