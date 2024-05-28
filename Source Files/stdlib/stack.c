@@ -19,14 +19,14 @@ void expandStack(stack* targetPtr)
 	dtarget->data = (char*)realloc(dtarget->data, dtarget->memberSize * dtarget->capacity);
 }
 
-void pushStack(stack* targetPtr, void* outData)
+void pushStack(stack* targetPtr, void* inData)
 {
 	stack dtarget = *targetPtr;
 	int newTopIdx = dtarget->top+1;
 	if (newTopIdx > dtarget->capacity) expandStack(targetPtr);
 
 	void* targetDestinationInMemory = (char*)dtarget->data+(dtarget->memberSize*newTopIdx);
-	memcpy(targetDestinationInMemory, outData, dtarget->memberSize);
+	memcpy(targetDestinationInMemory, inData, dtarget->memberSize);
 	dtarget->top = newTopIdx;
 }
 
