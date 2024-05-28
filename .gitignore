@@ -2,3 +2,4 @@ Release/Release.exe
 Debug/Debug.exe
 Debug/Debug.obj
 Debug/Debug.pdb
+scripts-windows/vc140.pdb
