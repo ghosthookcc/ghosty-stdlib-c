@@ -6,5 +6,10 @@
 #include "file.h"
 #include "math.h"
 #include "matrix.h"
+#include "vector.h"
+#include "hashtable.h"
+#include "linkedList.h"
+#include "queue.h"
+#include "stack.h"
 
 #endif 
