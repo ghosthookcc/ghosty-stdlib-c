@@ -33,18 +33,18 @@ void pushStack(stack* targetPtr, void* inData)
 void popStack(stack* targetPtr, void* outData)
 {
 	stack dtarget = *targetPtr;
-	if (dtarget->top <= 0) return;
+	if (dtarget->top == 0) return;
 	int newTopIdx = dtarget->top-1;
 
-	void* targetDestinationInMemory = (char*)dtarget->data+(dtarget->memberSize*dtarget->top);
-	memcpy(outData, targetDestinationInMemory, dtarget->memberSize);
+	void* sourceDestinationInMemory = (char*)dtarget->data+(dtarget->memberSize*dtarget->top);
+	memcpy(outData, sourceDestinationInMemory, dtarget->memberSize);
 	dtarget->top = newTopIdx;
 }
 
-void topStack(stack* targetPtr, void* outData)
+void peekStack(stack* targetPtr, void* outData)
 {
 	stack dtarget = *targetPtr;
-	if (dtarget->top <= 0) return;
+	if (dtarget->top == 0) return;
 
 	void* topDestinationInMemory = (char*)dtarget->data+(dtarget->memberSize*dtarget->top);
 	memcpy(outData, topDestinationInMemory, dtarget->memberSize);
