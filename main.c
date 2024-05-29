@@ -3,6 +3,8 @@
 int main(void)
 {
 	printf("\n");
+
+	/* Start testing of matf functionality */
 	matf4x4 s = matf4x4Default;
 
 	s.matrix[0] = 3.0f;
@@ -53,26 +55,61 @@ int main(void)
 		printf("\n");
 	}
 	printf("\n");
-	
+	/* End testing of matf functionality */
+
+	/* Start testing of stack functionality */
 	int top = 0;
 	int testValue1 = 5;
 	int testValue2 = 111;
+	int testValue3 = 152;
 	
 	stack stackTest = initStack(10, sizeof(int));
 	
 	pushStack(&stackTest, &testValue1);
 	pushStack(&stackTest, &testValue2);
-	topStack(&stackTest, &top);
+	pushStack(&stackTest, &testValue3);
+	peekStack(&stackTest, &top);
 
 	printf(" Top : %d ;\n", top);
-
 	popStack(&stackTest, &top);
-	topStack(&stackTest, &top);
-
+	printf(" POP\n");
+	peekStack(&stackTest, &top);
 	printf(" Top : %d ;\n", top);
+	popStack(&stackTest, &top);
+	printf(" POP\n");
+	peekStack(&stackTest, &top);
+	printf(" Top : %d ;\n\n", top);
+	/* End testing of stack functionality */
 
+	/* Start testing of queue functionality */
+	int next = 0;
+	int testValue4 = 5;
+	int testValue5 = 111;
+	int testValue6 = 152;
+
+	queue queueTest = initQueue(20, sizeof(int));
+
+	enqueueQueue(&queueTest, &testValue4);
+	enqueueQueue(&queueTest, &testValue5);
+	enqueueQueue(&queueTest, &testValue6);
+	peekQueue(&queueTest, &next);
+
+	printf(" Next : %d ;\n", next);
+	dequeueQueue(&queueTest, &next);
+	printf(" DEQUEUE\n");
+	peekQueue(&queueTest, &next);
+	printf(" Next : %d ;\n", next);
+	dequeueQueue(&queueTest, &next);
+	printf(" DEQUEUE\n");
+	peekQueue(&queueTest, &next);
+	printf(" Next : %d ;\n\n", next);
+	/* End testing of queue functionality */
+
+	/* Start testing of memory freeing functionality */
+	freeQueue(&queueTest);
 	freeStack(&stackTest);
 	matfSizedFree(&matf);
-
+	/* End testing of memory freeing functionality */
+	
 	return 0;
 }
