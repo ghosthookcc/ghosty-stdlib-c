@@ -105,6 +105,18 @@ int main(void)
 	printf(" Next : %d ;\n\n", next);
 	/* End testing of queue functionality */
 
+	/* Start testing of vector functionality */
+	fvector3 testVec1 = fvec3(0.0f, 0.0f, 0.0f);
+	fvector2 testVec2 = fvec2(0.0f, 0.0f);
+	dvector3 testVec3 = dvec3(0.0, 0.0, 0.0);
+	dvector2 testVec4 = dvec2(0.0, 0.0);
+
+	printf(" testVec1 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec1.x, testVec1.y, testVec1.z);
+	printf(" testVec2 : x{%.1f}, y{%.1f} ;\n", testVec2.x, testVec2.y);
+	printf(" testVec3 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec3.x, testVec3.y, testVec3.z);
+	printf(" testVec4 : x{%.1f}, y{%.1f} ;\n", testVec4.x, testVec4.y);
+	/* End testing of vector functionality */
+
 	/* Start testing of memory freeing functionality */
 	freeQueue(&queueTest);
 	freeStack(&stackTest);
