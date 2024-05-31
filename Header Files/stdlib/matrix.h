@@ -3,8 +3,7 @@
 
 #include <stdlib.h>
 
-/* Start matrix any size */
-
+/* Start matrix any size declaration */
 typedef struct matfSized_t
 {
 	float* matrix;
@@ -15,12 +14,9 @@ typedef struct matfSized_t
 matfSized initMatfSized(unsigned char rows, unsigned char columns);
 void initMatfSizedIdentity(matfSized* matf);
 void matfSizedFree(matfSized* matf);
+/* End matrix any size declaration */
 
-
-/* End matrix any size */
-
-/* Start matrix 4 size */
-
+/* Start matrix 4 size declaration */
 typedef struct matf4x4_t
 {
 	float matrix[16];
@@ -112,11 +108,9 @@ static const matf1x4 matf1x4Default =
 	.matrix = { 0, 0, 0, 0 },
 	.rows = 1, .columns = 4
 };
+/* End matrix 4 size declaration */
 
-/* End matrix 4 size */
-
-/* Start matrix 3 size */
-
+/* Start matrix 3 size declaration */
 typedef struct matf3x3_t
 {
 	float matrix[9];
@@ -180,11 +174,9 @@ static const matf1x3 matf1x3Default =
 	.matrix = { 0, 0, 0 },
 	.rows = 1, .columns = 3
 };
+/* End matrix 3 size declaration */
 
-/* End matrix 3 size */
-
-/* Start matrix 2 size */
-
+/* Start matrix 2 size declaration */
 typedef struct matf2x2_t
 {
 	float matrix[4];
@@ -223,7 +215,6 @@ static const matf1x2 matf1x2Default =
 	.matrix = { 0, 0 },
 	.rows = 1, .columns = 2
 };
+/* End matrix 2 size declaration */
 
-/* End matrix 2 size */
-
-#endif
+#endif // MATRIX_H

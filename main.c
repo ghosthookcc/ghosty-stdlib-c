@@ -114,7 +114,7 @@ int main(void)
 	printf(" testVec1 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec1.x, testVec1.y, testVec1.z);
 	printf(" testVec2 : x{%.1f}, y{%.1f} ;\n", testVec2.x, testVec2.y);
 	printf(" testVec3 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec3.x, testVec3.y, testVec3.z);
-	printf(" testVec4 : x{%.1f}, y{%.1f} ;\n", testVec4.x, testVec4.y);
+	printf(" testVec4 : x{%.1f}, y{%.1f} ;\n\n", testVec4.x, testVec4.y);
 	/* End testing of vector functionality */
 
 	/* Start testing of memory freeing functionality */

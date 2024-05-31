@@ -1,7 +1,6 @@
 #include "../../Header Files/stdlib/stack.h"
 
 // Stacks operate with LIFO (Last In First Out)
-
 stack initStack(int capacity, int dataSize)
 {
 	stack newStack = (stack)malloc(sizeof(*newStack) + (capacity * dataSize));

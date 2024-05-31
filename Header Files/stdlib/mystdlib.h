@@ -12,4 +12,4 @@
 #include "queue.h"
 #include "stack.h"
 
-#endif 
+#endif // MY_STDLIB_H

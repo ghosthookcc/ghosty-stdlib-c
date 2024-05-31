@@ -1,7 +1,6 @@
 #include "../../Header Files/stdlib/dArray.h"
 
 /* Start i32Array definition */
-
 i32Array* initI32Array(unsigned int initCapacity)
 {
 	i32Array* new = malloc(sizeof(*new) + (sizeof(int) * initCapacity));
@@ -45,11 +44,9 @@ void freeI32Array(i32Array** target)
 	targetDerefed->realSize = targetDerefed->capacity = 0;
 	free(targetDerefed);
 }
-
 /* End i32Array definition */
 
 /* Start f32Array definition */
-
 f32Array* initF32Array(unsigned int initCapacity)
 {
 	f32Array* new = malloc(sizeof(*new) + (sizeof(float) * initCapacity));
@@ -93,11 +90,9 @@ void freeF32Array(f32Array** target)
 	targetDerefed->realSize = targetDerefed->capacity = 0;
 	free(targetDerefed);
 }
-
 /* End f32Array definition */
 
 /* Start f64Array definition */
-
 f64Array* initF64Array(unsigned int initCapacity)
 {
 	f64Array* new = malloc(sizeof(*new) + (sizeof(double) * initCapacity));
@@ -141,5 +136,4 @@ void freeF64Array(f64Array** target)
 	targetDerefed->realSize = targetDerefed->capacity = 0;
 	free(targetDerefed);
 }
-
 /* End f64Array definition */

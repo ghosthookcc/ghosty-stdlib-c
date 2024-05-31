@@ -1,7 +1,6 @@
 #include "../../Header Files/stdlib/queue.h"
 
 // Queues operate with FIFO (First In First Out)
-
 queue initQueue(int capacity, int dataSize)
 {
 	queue newQueue = (queue)malloc(sizeof(*newQueue) + (capacity * dataSize));

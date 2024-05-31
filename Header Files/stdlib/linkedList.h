@@ -1,6 +1,4 @@
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
-
-
-#endif
+#endif // LINKEDLIST_H

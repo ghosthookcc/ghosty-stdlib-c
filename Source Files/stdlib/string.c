@@ -1,7 +1,6 @@
 #include "../../Header Files/stdlib/string.h"
 
 /* Start string definition */
-
 string* initString(unsigned int initCapacity)
 {
 	string* new = malloc(sizeof(*new) + (sizeof(char) * initCapacity));
@@ -63,11 +62,9 @@ void freeString(string** target)
 	targetDerefed->realSize = targetDerefed->capacity = 0;
 	free(targetDerefed);
 }
-
 /* End string definition */
 
 /* Start stringArray definition */
-
 stringArray* initStringArray(unsigned int initCapacity)
 {
 	stringArray* new = malloc(sizeof(*new) + (sizeof(string) * initCapacity));
@@ -115,7 +112,6 @@ void freeStringArray(stringArray** target)
 	targetDerefed->realSize = targetDerefed->capacity = 0;
 	free(targetDerefed);
 }
-
 /* End stringArray definition */
 
 unsigned int getStringLen(char* string)

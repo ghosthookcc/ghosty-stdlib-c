@@ -1,5 +1,6 @@
 #include "../../Header Files/stdlib/matrix.h"
 
+/* Start matrix any size definition */
 matfSized initMatfSized(unsigned char rows, unsigned char columns)
 {
 	matfSized newMatf;
@@ -26,3 +27,4 @@ void matfSizedFree(matfSized* matf)
 {
 	free(matf->matrix);
 }
+/* End matrix any size definition */

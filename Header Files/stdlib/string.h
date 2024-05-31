@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 /* Start string declaration */
-
 typedef struct string
 {
 	char* chars;
@@ -22,11 +21,9 @@ void pushChars(string** target, char* item);
 void printString(string** target);
 
 void freeString(string** target);
-
 /* End string declaration */
 
 /* Start stringArray declaration */
-
 typedef struct stringArray
 {
 	string** items;
@@ -37,11 +34,8 @@ typedef struct stringArray
 stringArray* initStringArray(unsigned int initCapacity);
 
 void pushString(stringArray** target, string* item);
-
 void printStringArray(stringArray** target);
-
 void freeStringArray(stringArray** target);
-
 /* End stringArray declaration */
 
 unsigned int getStringLen(char* chars);

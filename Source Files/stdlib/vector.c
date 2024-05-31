@@ -1,5 +1,6 @@
 #include "../../Header Files/stdlib/vector.h"
 
+/* Start fvector definition */
 fvector3 fvec3(float x, float y, float z)
 {
 	fvector3 newVector3;
@@ -16,7 +17,9 @@ fvector2 fvec2(float x, float y)
 	newVector2.y = y;
 	return newVector2;
 }
+/* End fvector definition */
 
+/* Start dvector definition */
 dvector3 dvec3(double x, double y, double z)
 {
 	dvector3 newdVector3;
@@ -33,3 +36,4 @@ dvector2 dvec2(double x, double y)
 	newdVector2.y = y;
 	return newdVector2;
 }
+/* End dvector definition */

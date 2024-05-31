@@ -6,7 +6,6 @@
 #include <string.h>
 
 // Stacks operate with LIFO (Last In First Out)
-
 typedef struct stack_t
 {
 	int top;
@@ -22,4 +21,4 @@ void popStack(stack* targetPtr, void* outData);
 void peekStack(stack* targetPtr, void* outData);
 void freeStack(stack* targetPtr);
 
-#endif
+#endif // STACK_H

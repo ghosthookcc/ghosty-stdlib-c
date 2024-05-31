@@ -6,7 +6,6 @@
 #include <string.h>
 
 // Queues operate with FIFO (First In First Out)
-
 typedef struct queue_t
 {
 	int size;
@@ -22,4 +21,4 @@ void dequeueQueue(queue* targetPtr, void* outData);
 void peekQueue(queue* targetPtr, void* outData);
 void freeQueue(queue* targetPtr);
 
-#endif
+#endif // QUEUE_H
