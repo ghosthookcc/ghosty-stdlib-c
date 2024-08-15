@@ -1,3 +1,4 @@
+#include "Header Files/stdlib/hash.h"
 #include "Header Files/stdlib/linkedList.h"
 #include "Header Files/stdlib/mystdlib.h"
 
@@ -120,6 +121,7 @@ int main(void)
 
 	/* Start testing of linkedList functionality */
 	linkedList testLinkedList = initLinkedList();
+
 	float testFloatValue1 = 12.5f;
 	node testNode1 = initLinkedListNode(&testFloatValue1);
 	insertIntoLinkedListBeginning(&testLinkedList, testNode1);
@@ -128,11 +130,25 @@ int main(void)
 	node testNode2 = initLinkedListNode(&testIntValue1);
 	insertIntoLinkedListBeginning(&testLinkedList, testNode2);
 
-	printf(" New head1 value :: %.2f ;\n", *(float*)testNode2->next->value);
-	printf(" New tail1 previous value :: %d ;", *(int*)testNode1->previous->value);
-    printf("\n\n");
+	double testDoubleValue1 = 15.7;
+	node testNode3 = initLinkedListNode(&testDoubleValue1);
+	insertIntoLinkedListBeginning(&testLinkedList, testNode3);
+
+	printf(" New next value of node2 :: %.3f ;\n", *(float*)testNode2->next->value);
+	printf(" New previous value of node1 :: %d ;\n", *(int*)testNode1->previous->value);
+    printf(" New head of linkedList :: %.6f ;\n", *(double*)testLinkedList.head->value);
+    printf(" New tail of linkedList :: %.3f ;\n\n", *(float*)testLinkedList.tail->value);
 	/* End testing of linkedList functionality */
 
+	/* Start testing of hash functionality */
+	unsigned int UINT_MAX = 4294967290;
+	printf(" UINT_MAX_BYTE0 :: %d ;\n", UINT_MAX % 0b11111111);
+
+	unsigned int key = 2222;
+	unsigned int outHash = murmur32Hash((const char*)&key, sizeof(key), 0);
+	printf(" KEY {2222} HASHOUT :: %d ;", outHash);
+	printf("\n\n");
+	/* End testing of hash functionality */
 
 	/* Start testing of memory freeing functionality */
 	freeQueue(&queueTest);
