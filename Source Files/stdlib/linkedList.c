@@ -13,7 +13,9 @@ linkedList initLinkedList()
 {
     linkedList newLinkedList;
     newLinkedList.size = 0;
+    newLinkedList.latestNode = NULL;
     newLinkedList.head = NULL;
+    newLinkedList.tail = NULL;
     return newLinkedList;
 }
 
@@ -26,9 +28,21 @@ void insertIntoLinkedListBeginning(linkedList* targetPtr, node newNode)
     }
     targetPtr->head = newNode;
     targetPtr->size += 1;
+    targetPtr->latestNode = newNode;
+    findAndSetTailOfLinkedListUsingNode(targetPtr, targetPtr->latestNode);
 }
 
 void insertIntoLinkedListEnd(linkedList* targetPtr, node newNode)
 {
 
+}
+
+void findAndSetTailOfLinkedListUsingNode(linkedList* targetPtr, node startNode)
+{
+    node currentNodeTraversing = startNode;
+    while (currentNodeTraversing->next != NULL)
+    {
+        currentNodeTraversing = currentNodeTraversing->next;
+    }
+    targetPtr->tail = currentNodeTraversing;
 }
