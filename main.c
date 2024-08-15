@@ -1,3 +1,4 @@
+#include "Header Files/stdlib/linkedList.h"
 #include "Header Files/stdlib/mystdlib.h"
 
 int main(void)
@@ -27,7 +28,7 @@ int main(void)
 
 	printf("\n");
 
-	matf4x4 ss = matf4x4Identity; 
+	matf4x4 ss = matf4x4Identity;
 	for (int row = 0; row < ss.rows; row++)
 	{
 		printf(" ");
@@ -62,9 +63,9 @@ int main(void)
 	int testValue1 = 5;
 	int testValue2 = 111;
 	int testValue3 = 152;
-	
+
 	stack stackTest = initStack(10, sizeof(int));
-	
+
 	pushStack(&stackTest, &testValue1);
 	pushStack(&stackTest, &testValue2);
 	pushStack(&stackTest, &testValue3);
@@ -117,11 +118,27 @@ int main(void)
 	printf(" testVec4 : x{%.1f}, y{%.1f} ;\n\n", testVec4.x, testVec4.y);
 	/* End testing of vector functionality */
 
+	/* Start testing of linkedList functionality */
+	linkedList testLinkedList = initLinkedList();
+	float testFloatValue1 = 12.5f;
+	node testNode1 = initLinkedListNode(&testFloatValue1);
+	insertIntoLinkedListBeginning(&testLinkedList, testNode1);
+
+	int testIntValue1 = 11;
+	node testNode2 = initLinkedListNode(&testIntValue1);
+	insertIntoLinkedListBeginning(&testLinkedList, testNode2);
+
+	printf(" New head1 value :: %.2f ;\n", *(float*)testNode2->next->value);
+	printf(" New tail1 previous value :: %d ;", *(int*)testNode1->previous->value);
+    printf("\n\n");
+	/* End testing of linkedList functionality */
+
+
 	/* Start testing of memory freeing functionality */
 	freeQueue(&queueTest);
 	freeStack(&stackTest);
 	matfSizedFree(&matf);
 	/* End testing of memory freeing functionality */
-	
+
 	return 0;
 }
