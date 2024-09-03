@@ -7,9 +7,9 @@
 
 typedef struct node_t
 {
-    void* value;
     struct node_t* next;
     struct node_t* previous;
+    void* value;
 } *node;
 
 typedef struct linkedList_t
@@ -18,7 +18,7 @@ typedef struct linkedList_t
     node latestNode;
     node head;
     node tail;
-} linkedList;
+} *linkedList;
 
 node initLinkedListNode(void* inData);
 

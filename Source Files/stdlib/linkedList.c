@@ -2,34 +2,35 @@
 
 node initLinkedListNode(void* inData)
 {
-    node newNode = (node)malloc(sizeof(*newNode) + sizeof(inData));
-    newNode->value = inData;
+    node newNode = (node)malloc(sizeof(*newNode));
     newNode->next = NULL;
     newNode->previous = NULL;
+    newNode->value = inData;
     return newNode;
 }
 
 linkedList initLinkedList()
 {
-    linkedList newLinkedList;
-    newLinkedList.size = 0;
-    newLinkedList.latestNode = NULL;
-    newLinkedList.head = NULL;
-    newLinkedList.tail = NULL;
+    linkedList newLinkedList = (linkedList)malloc(sizeof(*newLinkedList));
+    newLinkedList->size = 0;
+    newLinkedList->latestNode = NULL;
+    newLinkedList->head = NULL;
+    newLinkedList->tail = NULL;
     return newLinkedList;
 }
 
 void insertIntoLinkedListBeginning(linkedList* targetPtr, node newNode)
 {
-    newNode->next = targetPtr->head;
-    if (targetPtr->head != NULL)
+    linkedList dtarget = *targetPtr;
+    newNode->next = dtarget->head;
+    if (dtarget->head != NULL)
     {
-        targetPtr->head->previous = newNode;
+        dtarget->head->previous = newNode;
     }
-    targetPtr->head = newNode;
-    targetPtr->size += 1;
-    targetPtr->latestNode = newNode;
-    findAndSetTailOfLinkedListUsingNode(targetPtr, targetPtr->latestNode);
+    dtarget->head = newNode;
+    dtarget->size += 1;
+    dtarget->latestNode = newNode;
+    findAndSetTailOfLinkedListUsingNode(targetPtr, dtarget->latestNode);
 }
 
 void insertIntoLinkedListEnd(linkedList* targetPtr, node newNode)
@@ -39,10 +40,11 @@ void insertIntoLinkedListEnd(linkedList* targetPtr, node newNode)
 
 void findAndSetTailOfLinkedListUsingNode(linkedList* targetPtr, node startNode)
 {
+    linkedList dtarget = *targetPtr;
     node currentNodeTraversing = startNode;
     while (currentNodeTraversing->next != NULL)
     {
         currentNodeTraversing = currentNodeTraversing->next;
     }
-    targetPtr->tail = currentNodeTraversing;
+    dtarget->tail = currentNodeTraversing;
 }
