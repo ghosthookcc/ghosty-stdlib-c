@@ -1,17 +1,24 @@
 #include "../../Header Files/stdlib/hash.h"
 
-
-unsigned int murmur32Hash(const char* key, unsigned int keyLength, unsigned int seed)
+bucket initHashBucket(unsigned int hash)
 {
-    unsigned int c1 = 0xcc9e2d51;
-    unsigned int c2 = 0x1b873593;
+    bucket newBucket = (bucket)malloc(sizeof(struct bucket_t));
+    newBucket->hash = hash;
+    newBucket->size = 0;
+    return newBucket;
+}
+
+unsigned int murmur32Hash(const void* key, unsigned int keyLength, unsigned int seed)
+{
+    unsigned int c1 = 0xcc9e2d51u;
+    unsigned int c2 = 0x1b873593u;
     unsigned int r1 = 15;
     unsigned int r2 = 13;
     unsigned int m = 5;
-    unsigned int n = 0xe6546b64;
+    unsigned int n = 0xe6546b64u;
     unsigned int hash = 0;
     unsigned int currentOctet = 0;
-    unsigned char* d = (unsigned char*)key;
+    unsigned char* data = (unsigned char*)key;
 
     const unsigned int* chunks;
     const unsigned char* tail;
@@ -21,8 +28,8 @@ unsigned int murmur32Hash(const char* key, unsigned int keyLength, unsigned int 
 
     hash = seed;
 
-    chunks = (const unsigned int*)(d + length * 4);
-    tail   = (const unsigned char*)(d + length * 4);
+    chunks = (const unsigned int*)(data + length * 4);
+    tail   = (const unsigned char*)(data + length * 4);
 
     for (idx = -length; idx != 0; idx++)
     {
@@ -54,10 +61,25 @@ unsigned int murmur32Hash(const char* key, unsigned int keyLength, unsigned int 
     hash ^= keyLength;
 
     hash ^= (hash >> 16);
-    hash *= 0x85ebca6b;
+    hash *= 0x85ebca6bu;
     hash ^= (hash >> 13);
-    hash *= 0xc2b2ae35;
+    hash *= 0xc2b2ae35u;
     hash ^= (hash >> 16);
 
     return hash;
+}
+
+unsigned int fnv1AHash(const void* key, unsigned int keyLength, unsigned int seed)
+{
+    unsigned int hash = FNV1A_32_HASH_INIT;
+
+    const unsigned char* data = (const unsigned char*)key;
+    const unsigned char* beyoundEndOfBuffer = data + keyLength;
+
+    while (data < beyoundEndOfBuffer)
+    {
+        hash ^= (unsigned int)*data++;
+        hash *= FNV1A_32_HASH_PRIME;
+    }
+    return hash /*& 0xffffff*/;
 }
