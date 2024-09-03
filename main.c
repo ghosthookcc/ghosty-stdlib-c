@@ -1,4 +1,5 @@
 #include "Header Files/stdlib/hash.h"
+#include "Header Files/stdlib/hashtable.h"
 #include "Header Files/stdlib/linkedList.h"
 #include "Header Files/stdlib/mystdlib.h"
 
@@ -136,8 +137,8 @@ int main(void)
 
 	printf(" New next value of node2 :: %.3f ;\n", *(float*)testNode2->next->value);
 	printf(" New previous value of node1 :: %d ;\n", *(int*)testNode1->previous->value);
-    printf(" New head of linkedList :: %.6f ;\n", *(double*)testLinkedList.head->value);
-    printf(" New tail of linkedList :: %.3f ;\n\n", *(float*)testLinkedList.tail->value);
+    printf(" New head of linkedList :: %.6f ;\n", *(double*)testLinkedList->head->value);
+    printf(" New tail of linkedList :: %.3f ;\n\n", *(float*)testLinkedList->tail->value);
 	/* End testing of linkedList functionality */
 
 	/* Start testing of hash functionality */
@@ -145,10 +146,37 @@ int main(void)
 	printf(" UINT_MAX_BYTE0 :: %d ;\n", UINT_MAX % 0b11111111);
 
 	unsigned int key = 2222;
-	unsigned int outHash = murmur32Hash((const char*)&key, sizeof(key), 0);
-	printf(" KEY {2222} HASHOUT :: %d ;", outHash);
+	unsigned int outHash = murmur32Hash(&key, sizeof(key), 0);
+	printf(" KEY {2222} HASHOUT :: %u | %x ;\n", outHash, outHash);
+
+	unsigned int key2 = 4323;
+	unsigned int outHash2 = fnv1AHash(&key2, sizeof(key2), 0);
+	printf(" KEY2 {4323} HASHOUT :: %u | %x ;", outHash2, outHash2);
 	printf("\n\n");
 	/* End testing of hash functionality */
+
+	/* Start testing of hashtable functionality */
+	chainedHashTable testchainedHashTable1 = initChainedHashTable(100);
+
+	int keyPair1Key = 12;
+	float keyPair1Value = 17.3f;
+	keyPair testKeyPair = initKeyPair(&keyPair1Key, &keyPair1Value, 4);
+	insertIntoChainedHashTable(&testchainedHashTable1, testKeyPair);
+
+	int keyPair2Key = 12;
+	float keyPair2Value = 542.34f;
+	keyPair testKeyPair2 = initKeyPair(&keyPair2Key, &keyPair2Value, 4);
+	insertIntoChainedHashTable(&testchainedHashTable1, testKeyPair2);
+
+	int keyPair3Key = 1231;
+	float keyPair3Value = 12312.223f;
+	keyPair testKeyPair3 = initKeyPair(&keyPair3Key, &keyPair3Value, 4);
+	insertIntoChainedHashTable(&testchainedHashTable1, testKeyPair3);
+
+	keyPair testSearch1 = searchChainedHashTable(testchainedHashTable1, testKeyPair3);
+	printf(" TestSearch1Value :: %.2f ;\n", *(float*)testSearch1->value);
+	printf("\n");
+	/* End testing of hashtable functionality */
 
 	/* Start testing of memory freeing functionality */
 	freeQueue(&queueTest);
