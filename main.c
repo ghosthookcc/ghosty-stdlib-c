@@ -179,9 +179,11 @@ int main(void)
 	/* End testing of hashtable functionality */
 
 	/* Start testing of memory freeing functionality */
-	freeQueue(&queueTest);
-	freeStack(&stackTest);
 	matfSizedFree(&matf);
+	freeStack(&stackTest);
+	freeQueue(&queueTest);
+	freeLinkedList(&testLinkedList);
+	freeChainedHashTable(&testchainedHashTable1);
 	/* End testing of memory freeing functionality */
 
 	return 0;
