@@ -39,4 +39,6 @@ keyPair searchChainedHashTable(chainedHashTable targetPtr, keyPair keyPair);
 keyPair initKeyPair(void* key, void* value, unsigned int keyLength);
 hashTableBucket initHashTableBucket(unsigned int hash, void* data);
 
+void freeChainedHashTable(chainedHashTable* targetPtr);
+
 #endif // HASHTABLE_H
