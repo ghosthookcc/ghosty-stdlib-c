@@ -2,9 +2,9 @@
 
 bucket initHashBucket(unsigned int hash)
 {
-    bucket newBucket = (bucket)malloc(sizeof(struct bucket_t));
-    newBucket->hash = hash;
-    newBucket->size = 0;
+    bucket newBucket;
+    newBucket.hash = hash;
+    newBucket.size = 0;
     return newBucket;
 }
 

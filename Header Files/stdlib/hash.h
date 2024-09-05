@@ -12,7 +12,7 @@ typedef struct bucket_t
 {
     unsigned int hash;
     unsigned int size;
-} *bucket;
+} bucket;
 
 bucket initHashBucket(unsigned int hash);
 
