@@ -28,4 +28,6 @@ void insertIntoLinkedListEnd(linkedList* targetPtr, node inData);
 
 void findAndSetTailOfLinkedListUsingNode(linkedList* targetPtr, node startNode);
 
+void freeLinkedList(linkedList* targetPtr);
+
 #endif // LINKEDLIST_H

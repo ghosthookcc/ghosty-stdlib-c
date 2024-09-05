@@ -48,3 +48,16 @@ void findAndSetTailOfLinkedListUsingNode(linkedList* targetPtr, node startNode)
     }
     dtarget->tail = currentNodeTraversing;
 }
+
+void freeLinkedList(linkedList* targetPtr)
+{
+    linkedList dtarget = *targetPtr;
+    node currentNode = NULL;
+    while (dtarget->head != NULL)
+    {
+        currentNode = dtarget->head;
+        dtarget->head = dtarget->head->next;
+        free(currentNode);
+    }
+    free(dtarget);
+}
