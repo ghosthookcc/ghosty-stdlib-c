@@ -30,22 +30,22 @@ keyPair insertIntoChainedHashTable(chainedHashTable* targetPtr, void* key, void*
     node newEntryNode = NULL;
     if (entry->head == NULL)
     {
-        hashTableBucket newBucket = initHashTableBucket(hash, keyPairToInsert);
+        chainedHashTableBucket newBucket = initChainedHashTableBucket(hash, keyPairToInsert);
         newBucket->_bucket.size = 1;
         newEntryNode = initLinkedListNode(newBucket);
     }
     else
     {
         node currentNode = entry->head;
-        hashTableBucket currentBucket = NULL;
+        chainedHashTableBucket currentBucket = NULL;
         keyPair currentKeyPair = NULL;
         while (currentNode != NULL)
         {
-            currentBucket = ((hashTableBucket)currentNode->value);
+            currentBucket = ((chainedHashTableBucket)currentNode->value);
             currentKeyPair = ((keyPair)currentBucket->data);
             if (currentBucket == NULL)
             {
-                hashTableBucket newBucket = initHashTableBucket(hash, keyPairToInsert);
+                chainedHashTableBucket newBucket = initChainedHashTableBucket(hash, keyPairToInsert);
                 newEntryNode = initLinkedListNode(&newBucket);
                 currentNode->value = newEntryNode;
                 newBucket->_bucket.size += 1;
@@ -78,11 +78,11 @@ keyPair searchChainedHashTable(chainedHashTable targetPtr, keyPair searchForKeyP
     linkedList entry = targetPtr->chains[hashTableIdx];
 
     node currentNode = entry->head;
-    hashTableBucket currentBucket = NULL;
+    chainedHashTableBucket currentBucket = NULL;
     keyPair currentKeyPair = NULL;
     while (currentNode != NULL)
     {
-        currentBucket = ((hashTableBucket)currentNode->value);
+        currentBucket = ((chainedHashTableBucket)currentNode->value);
         currentKeyPair = ((keyPair)currentBucket->data);
         if (currentBucket != NULL && currentBucket->_bucket.hash == hash && currentKeyPair->equal(currentKeyPair->key, searchForKeyPair->key))
         {
@@ -93,19 +93,9 @@ keyPair searchChainedHashTable(chainedHashTable targetPtr, keyPair searchForKeyP
     return NULL;
 }
 
-keyPair initKeyPair(void* key, void* value, unsigned int keyLength, equalCallback equal)
+chainedHashTableBucket initChainedHashTableBucket(unsigned int hash, void* data)
 {
-    keyPair newKeyPair = (keyPair)malloc(sizeof(*newKeyPair));
-    newKeyPair->key = key;
-    newKeyPair->value = value;
-    newKeyPair->keyLength = keyLength;
-    newKeyPair->equal = equal;
-    return newKeyPair;
-}
-
-hashTableBucket initHashTableBucket(unsigned int hash, void* data)
-{
-    hashTableBucket newHashTableBucket = (hashTableBucket)malloc(sizeof(*newHashTableBucket));
+    chainedHashTableBucket newHashTableBucket = (chainedHashTableBucket)malloc(sizeof(*newHashTableBucket));
     newHashTableBucket->_bucket = initHashBucket(hash);
     newHashTableBucket->data = data;
     return newHashTableBucket;
@@ -119,11 +109,11 @@ void freeChainedHashTable(chainedHashTable* targetPtr)
     {
         if (dtarget->chains[idx] != NULL)
         {
-            hashTableBucket currentBucket = NULL;
+            chainedHashTableBucket currentBucket = NULL;
             node currentNode = dtarget->chains[idx]->head;
             while (currentNode != NULL)
             {
-                currentBucket = (hashTableBucket)dtarget->chains[idx]->head->value;
+                currentBucket = (chainedHashTableBucket)dtarget->chains[idx]->head->value;
                 free(currentBucket->data);
                 free(currentBucket);
                 currentNode = currentNode->next;
@@ -134,6 +124,36 @@ void freeChainedHashTable(chainedHashTable* targetPtr)
     }
     free(dtarget->chains);
     free(dtarget);
+}
+
+openHashTable initOpenHashTable(unsigned int capacity)
+{
+    
+}
+
+keyPair insertIntoOpenHashTable(openHashTable* targetPtr, void* key, void* value, unsigned int keyLength, equalCallback equal)
+{
+
+}
+
+keyPair searchOpenHashTable(openHashTable targetPtr, keyPair searchForKeyPair)
+{
+
+}
+
+openHashTableBucket initOpenHashTableBucket(unsigned int hash, keyPair data)
+{
+
+}
+
+keyPair initKeyPair(void* key, void* value, unsigned int keyLength, equalCallback equal)
+{
+    keyPair newKeyPair = (keyPair)malloc(sizeof(*newKeyPair));
+    newKeyPair->key = key;
+    newKeyPair->value = value;
+    newKeyPair->keyLength = keyLength;
+    newKeyPair->equal = equal;
+    return newKeyPair;
 }
 
 boolean unsignedIntEqual(void* data, void* otherData)
