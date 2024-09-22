@@ -19,5 +19,7 @@ OUT="../../Release/bin/"$TARGET
 
 gcc $WARNINGS $GCC_OPT $FLAGS ../../main.c $SOURCE -I./"../../Header\ Files/stdlib/" -o $OUT
 cd "../../scripts-linux"
+echo
 echo "[/][ANY] to close this console . . ."
 read
+clear
