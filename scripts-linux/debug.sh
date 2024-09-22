@@ -1,5 +1,6 @@
+echo
 ./generate-debug.sh
-clear
+echo
 echo "[/][ANY] to run program in debug mode . . ."
 read
 clear
