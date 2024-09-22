@@ -8,13 +8,13 @@
 // Stacks operate with LIFO (Last In First Out)
 typedef struct stack_t
 {
-	int top;
-	int capacity;
-	int memberSize;	
-	void* data;
+	unsigned int capacity;
+	unsigned int memberSize;	
+	unsigned int top;
+	unsigned char* data;
 } *stack;
 
-stack initStack(int capacity, int dataSize);
+stack initStack(unsigned int capacity, unsigned int dataSize);
 void expandStack(stack* targetPtr);
 void pushStack(stack* targetPtr, void* inData);
 void popStack(stack* targetPtr, void* outData);
