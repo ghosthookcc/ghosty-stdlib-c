@@ -1,7 +1,23 @@
+#!/bin/sh
 clear
 echo
 echo "[+] Building project in release mode . . ."
 echo
-gcc -Wall ../main.c ../Source\ Files/stdlib/dArray.c ../Source\ Files/stdlib/file.c ../Source\ Files/stdlib/hash.c ../Source\ Files/stdlib/hashtable.c ../Source\ Files/stdlib/linkedList.c ../Source\ Files/stdlib/math.c ../Source\ Files/stdlib/matrix.c ../Source\ Files/stdlib/queue.c ../Source\ Files/stdlib/stack.c ../Source\ Files/stdlib/string.c ../Source\ Files/stdlib/vector.c -I/../Header\ Files/stdlib/ -o ../S
+
+cd "../Source Files/stdlib"
+SPATHS=$(find . -type f -name "*.c")
+SOURCE=""
+for path in $SPATHS; do
+	SOURCE="$SOURCE $path"
+done
+
+WARNINGS=""
+TARGET="Release"
+GCC_OPT="-O3 -ffast-math"
+FLAGS=""
+OUT="../../Release/bin/"$TARGET
+
+gcc $WARNINGS $GCC_OPT $FLAGS ../../main.c $SOURCE -I./"../../Header\ Files/stdlib/" -o $OUT
+cd "../../scripts-linux"
 echo "[/][ANY] to close this console . . ."
 read

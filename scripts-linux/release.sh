@@ -1,5 +1,6 @@
+echo
 ./generate-release.sh
-clear
+echo 
 echo "[/][ANY] to run program in release mode . . ."
 read
 clear
