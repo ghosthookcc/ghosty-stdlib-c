@@ -1,8 +1,15 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 
+#include <sys/types.h>
+
 #include "hash.h"
 #include "linkedList.h"
+#include "boolean.h"
+
+#define unsignedIntEqual UnsignedIntEqual
+
+typedef boolean(*equalCallback)(void* data, void* otherData);
 
 typedef struct hashTableBucket_t
 {
@@ -15,6 +22,7 @@ typedef struct keyPair_t
     void* key;
     void* value;
     unsigned int keyLength;
+    equalCallback equal;
 } *keyPair;
 
 // Speed linear with load factor
@@ -33,12 +41,15 @@ typedef struct addressedHashTable_t
 } *openHashTable;
 
 chainedHashTable initChainedHashTable(unsigned int capacity);
-void insertIntoChainedHashTable(chainedHashTable* targetPtr, keyPair keyPair);
-keyPair searchChainedHashTable(chainedHashTable targetPtr, keyPair keyPair);
 
-keyPair initKeyPair(void* key, void* value, unsigned int keyLength);
+keyPair insertIntoChainedHashTable(chainedHashTable* targetPtr, void* key, void* value, unsigned int keyLength, equalCallback equal);
+keyPair searchChainedHashTable(chainedHashTable targetPtr, keyPair searchForKeyPair);
+
+keyPair initKeyPair(void* key, void* value, unsigned int keyLength, equalCallback equal);
 hashTableBucket initHashTableBucket(unsigned int hash, void* data);
 
 void freeChainedHashTable(chainedHashTable* targetPtr);
+
+boolean unsignedIntEqual(void* data, void* otherData);
 
 #endif // HASHTABLE_H

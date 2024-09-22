@@ -1,5 +1,4 @@
 #include "../../Header Files/stdlib/hashtable.h"
-#include <sys/types.h>
 
 chainedHashTable initChainedHashTable(unsigned int capacity)
 {
@@ -14,11 +13,13 @@ chainedHashTable initChainedHashTable(unsigned int capacity)
     return newHashTable;
 }
 
-void insertIntoChainedHashTable(chainedHashTable* targetPtr, keyPair keyPairToInsert)
+keyPair insertIntoChainedHashTable(chainedHashTable* targetPtr, void* key, void* value, unsigned int keyLength, equalCallback equal)
 {
     chainedHashTable dtarget = *targetPtr;
-    unsigned int hash = fnv1AHash(keyPairToInsert->key, keyPairToInsert->keyLength, 0);
+    unsigned int hash = fnv1AHash(key, keyLength, 0);
     unsigned int hashTableIdx = hash % dtarget->capacity;
+
+    keyPair keyPairToInsert = initKeyPair(key, value, keyLength, equal);
 
     if (dtarget->chains[hashTableIdx] == NULL)
     {
@@ -37,9 +38,11 @@ void insertIntoChainedHashTable(chainedHashTable* targetPtr, keyPair keyPairToIn
     {
         node currentNode = entry->head;
         hashTableBucket currentBucket = NULL;
+        keyPair currentKeyPair = NULL;
         while (currentNode != NULL)
         {
             currentBucket = ((hashTableBucket)currentNode->value);
+            currentKeyPair = ((keyPair)currentBucket->data);
             if (currentBucket == NULL)
             {
                 hashTableBucket newBucket = initHashTableBucket(hash, keyPairToInsert);
@@ -48,10 +51,11 @@ void insertIntoChainedHashTable(chainedHashTable* targetPtr, keyPair keyPairToIn
                 newBucket->_bucket.size += 1;
                 currentBucket = newBucket;
             }
-            else if (currentBucket->_bucket.hash == hash)
+            else if (currentBucket->_bucket.hash == hash && currentKeyPair->equal(currentKeyPair->key, keyPairToInsert->key))
             {
-                free(currentBucket->data);
-                currentBucket->data = keyPairToInsert;
+                ((keyPair)currentBucket->data)->value = keyPairToInsert->value;
+                free(keyPairToInsert);
+                return currentBucket->data;
             }
             currentNode = currentNode->next;
         }
@@ -61,36 +65,41 @@ void insertIntoChainedHashTable(chainedHashTable* targetPtr, keyPair keyPairToIn
     {
         insertIntoLinkedListBeginning(&entry, newEntryNode);
         dtarget->entryCount += 1;
+        return keyPairToInsert;
     }
+    return NULL;
 }
 
-keyPair searchChainedHashTable(chainedHashTable targetPtr, keyPair keyPair)
+keyPair searchChainedHashTable(chainedHashTable targetPtr, keyPair searchForKeyPair)
 {
-    unsigned int hash = fnv1AHash(keyPair->key, keyPair->keyLength, 0);
+    unsigned int hash = fnv1AHash(searchForKeyPair->key, searchForKeyPair->keyLength, 0);
     unsigned int hashTableIdx = hash % targetPtr->capacity;
 
     linkedList entry = targetPtr->chains[hashTableIdx];
 
     node currentNode = entry->head;
     hashTableBucket currentBucket = NULL;
+    keyPair currentKeyPair = NULL;
     while (currentNode != NULL)
     {
         currentBucket = ((hashTableBucket)currentNode->value);
-        if (currentBucket != NULL && currentBucket->_bucket.hash == hash)
+        currentKeyPair = ((keyPair)currentBucket->data);
+        if (currentBucket != NULL && currentBucket->_bucket.hash == hash && currentKeyPair->equal(currentKeyPair->key, searchForKeyPair->key))
         {
-            return (currentBucket->data);
+            return currentKeyPair;
         }
         currentNode = currentNode->next;
     }
     return NULL;
 }
 
-keyPair initKeyPair(void* key, void* value, unsigned int keyLength)
+keyPair initKeyPair(void* key, void* value, unsigned int keyLength, equalCallback equal)
 {
     keyPair newKeyPair = (keyPair)malloc(sizeof(*newKeyPair));
     newKeyPair->key = key;
     newKeyPair->value = value;
     newKeyPair->keyLength = keyLength;
+    newKeyPair->equal = equal;
     return newKeyPair;
 }
 
@@ -125,4 +134,13 @@ void freeChainedHashTable(chainedHashTable* targetPtr)
     }
     free(dtarget->chains);
     free(dtarget);
+}
+
+boolean unsignedIntEqual(void* data, void* otherData)
+{
+    const unsigned int data_t = *(unsigned int*)data;
+    const unsigned int otherData_t = *(unsigned int*)otherData;
+
+    boolean isEqual = (data_t == otherData_t);
+    return isEqual;
 }
