@@ -1,7 +1,7 @@
 #include "../../Header Files/stdlib/dArray.h"
 
 /* Start i32Array definition */
-i32Array* initI32Array(unsigned int initCapacity)
+i32Array* initi32Array(unsigned int initCapacity)
 {
 	i32Array* new = malloc(sizeof(*new) + (sizeof(int) * initCapacity));
 	
@@ -12,7 +12,7 @@ i32Array* initI32Array(unsigned int initCapacity)
 	return(new);
 }	
 
-void pushI32(i32Array** target, int item)
+void pushi32(i32Array** target, int item)
 {
 	i32Array* targetDerefed = *target;
 	if ( targetDerefed->realSize == targetDerefed->capacity )
@@ -25,7 +25,7 @@ void pushI32(i32Array** target, int item)
 	targetDerefed->realSize++;
 }
 
-void printI32Array(i32Array** target)
+void printi32Array(i32Array** target)
 {
 	printf("\n");
 	i32Array* targetDerefed = *target;
@@ -36,7 +36,7 @@ void printI32Array(i32Array** target)
 	printf("\n");
 }
 
-void freeI32Array(i32Array** target)
+void freei32Array(i32Array** target)
 {
 	i32Array* targetDerefed = *target;
 	free(targetDerefed->items);
@@ -47,7 +47,7 @@ void freeI32Array(i32Array** target)
 /* End i32Array definition */
 
 /* Start f32Array definition */
-f32Array* initF32Array(unsigned int initCapacity)
+f32Array* initf32Array(unsigned int initCapacity)
 {
 	f32Array* new = malloc(sizeof(*new) + (sizeof(float) * initCapacity));
 	
@@ -58,7 +58,7 @@ f32Array* initF32Array(unsigned int initCapacity)
 	return(new);
 }	
 
-void pushF32(f32Array** target, float item)
+void pushf32(f32Array** target, float item)
 {
 	f32Array* targetDerefed = *target;
 	if ( targetDerefed->realSize == targetDerefed->capacity )
@@ -71,7 +71,7 @@ void pushF32(f32Array** target, float item)
 	targetDerefed->realSize++;
 }
 
-void printF32Array(f32Array** target)
+void printf32Array(f32Array** target)
 {
 	printf("\n");
 	f32Array* targetDerefed = *target;
@@ -82,7 +82,7 @@ void printF32Array(f32Array** target)
 	printf("\n");
 }
 
-void freeF32Array(f32Array** target)
+void freef32Array(f32Array** target)
 {
 	f32Array* targetDerefed = *target;
 	free(targetDerefed->items);
@@ -93,7 +93,7 @@ void freeF32Array(f32Array** target)
 /* End f32Array definition */
 
 /* Start f64Array definition */
-f64Array* initF64Array(unsigned int initCapacity)
+f64Array* initf64Array(unsigned int initCapacity)
 {
 	f64Array* new = malloc(sizeof(*new) + (sizeof(double) * initCapacity));
 	
@@ -104,7 +104,7 @@ f64Array* initF64Array(unsigned int initCapacity)
 	return(new);
 }	
 
-void pushF64(f64Array** target, double item)
+void pushf64(f64Array** target, double item)
 {
 	f64Array* targetDerefed = *target;
 	if ( targetDerefed->realSize == targetDerefed->capacity )
@@ -117,7 +117,7 @@ void pushF64(f64Array** target, double item)
 	targetDerefed->realSize++;
 }
 
-void printF64Array(f64Array** target)
+void printf64Array(f64Array** target)
 {
 	printf("\n");
 	f64Array* targetDerefed = *target;
@@ -128,7 +128,7 @@ void printF64Array(f64Array** target)
 	printf("\n");
 }
 
-void freeF64Array(f64Array** target)
+void freef64Array(f64Array** target)
 {
 	f64Array* targetDerefed = *target;
 	free(targetDerefed->items);

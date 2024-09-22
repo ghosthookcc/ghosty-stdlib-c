@@ -14,13 +14,13 @@ typedef struct i32Array
 	unsigned int capacity;
 } i32Array;
 
-i32Array* initI32Array(unsigned int initCapacity);
+i32Array* initi32Array(unsigned int initCapacity);
 
-void pushI32(i32Array** target, int item);
+void pushi32(i32Array** target, int item);
 
-void printI32Array(i32Array** target);
+void printi32Array(i32Array** target);
 
-void freeI32Array(i32Array** target);
+void freei32Array(i32Array** target);
 /* End i32Array declaration */
 
 /* Start f32Array declaration */
@@ -31,13 +31,13 @@ typedef struct f32Array
 	unsigned int capacity;
 } f32Array;
 
-f32Array* initF32Array(unsigned int initCapacity);
+f32Array* initf32Array(unsigned int initCapacity);
 
-void pushF32(f32Array** target, float item);
+void pushf32(f32Array** target, float item);
 
-void printF32Array(f32Array** target);
+void printf32Array(f32Array** target);
 
-void freeF32Array(f32Array** target);
+void freef32Array(f32Array** target);
 /* End f32Array declaration */
 
 /* Start f64Array declaration */
@@ -48,13 +48,13 @@ typedef struct f64Array
 	unsigned int capacity;
 } f64Array;
 
-f64Array* initF64Array(unsigned int initCapacity);
+f64Array* initf64Array(unsigned int initCapacity);
 
-void pushF64(f64Array** target, double item);
+void pushf64(f64Array** target, double item);
 
-void printF64Array(f64Array** target);
+void printf64Array(f64Array** target);
 
-void freeF64Array(f64Array** target);
+void freef64Array(f64Array** target);
 /* End f64Array declaration */
 
 #endif // DARRAY_H
