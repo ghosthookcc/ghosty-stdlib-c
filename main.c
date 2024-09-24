@@ -14,6 +14,7 @@ int main(void)
 	timer linkedListTimer = TimerDefault;
 	timer hashTimer = TimerDefault;
 	timer hashTableTimer = TimerDefault;
+	timer arrayTimer = TimerDefault;
 	timer memoryFreeTimer = TimerDefault;
 
 	timerStart(&matrixTimer);
@@ -80,7 +81,7 @@ int main(void)
 	/* Start testing of stack functionality */
 	int top = 0;
 	int testValue1 = 5;
-	int testValue2 = 111;
+	int testValue2 = 11100;
 	int testValue3 = 152;
 
 	stack stackTest = initStack(10, sizeof(int));
@@ -186,7 +187,6 @@ int main(void)
 	timerStop(&hashTimer);
 	timerPrintDelta(hashTimer);
 
-
 	timerStart(&hashTableTimer);
 	/* Start testing of hashtable functionality */
 	chainedHashTable testchainedHashTable1 = initChainedHashTable(100);
@@ -194,29 +194,67 @@ int main(void)
 	unsigned int keyName1 = 12;
 	float keyValue1 = 53.2f;
 	keyPair testKeyPair1 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName1, &keyValue1, 4, UnsignedIntEqual);
-	//printf("\nTestInsert1ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair1->key));
+	printf("\nTestInsert1ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair1->key));
 
 	unsigned int keyName2 = 12;
 	int keyValue2 = 4;
 	keyPair testKeyPair2 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName2, &keyValue2, 4, UnsignedIntEqual);
-	//printf("TestInsert2ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair2->key));
+	printf("TestInsert2ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair2->key));
 
 	unsigned int keyName3 = 1231;
 	float keyValue3 = 12312.223f;
 	keyPair testKeyPair3 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName3, &keyValue3, 4, UnsignedIntEqual);
-	//printf("TestInsert3ValueKey :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testKeyPair3->key));
+	printf("TestInsert3ValueKey :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testKeyPair3->key));
 
-	keyPair testSearch1 = searchChainedHashTable(testchainedHashTable1, testKeyPair3);
-	//printf("TestSearch1Value :: %.2f ;\n", VOIDPTR_CAST(float, testSearch1->value));
-
+	keyPair testSearch1 = searchChainedHashTable(testchainedHashTable1, testKeyPair1);
+	printf("TestSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testSearch1->value));
 	keyPair testSearch2 = searchChainedHashTable(testchainedHashTable1, testKeyPair2);
-	//printf("TestSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testSearch2->value));
+	printf("TestSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testSearch2->value));
+	keyPair testSearch3 = searchChainedHashTable(testchainedHashTable1, testKeyPair3);
+	printf("TestSearch3Value :: %.2f ;\n\n\n", VOIDPTR_CAST(float, testSearch3->value));
+	
+	openHashTable testopenHashTable1 = initOpenHashTable(100);
 
-	keyPair testSearch3 = searchChainedHashTable(testchainedHashTable1, testKeyPair1);
-	//printf("TestSearch3Value :: %d ;\n", VOIDPTR_CAST(int, testSearch3->value));
+	unsigned int openKeyName1 = 12;
+	float openKeyValue1 = 2131.23f;
+	keyPair testOpenKeyPair1 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName1, &openKeyValue1, 4, UnsignedIntEqual);
+	printf("TestOpenInsert1 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair1->key));
+
+	unsigned int openKeyName2 = 12;
+	int openKeyValue2 = 541;
+	keyPair testOpenKeyPair2 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName2, &openKeyValue2, 4, UnsignedIntEqual);
+	printf("TestOpenInsert2 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair2->key));
+
+	unsigned int openKeyName3 = 1231;
+	float openKeyValue3 = 4123521.23f;
+	keyPair testOpenKeyPair3 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName3, &openKeyValue3, 4, UnsignedIntEqual);
+	printf("TestOpenInsert3 :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair3->key));
+
+	keyPair testOpenSearch1 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair1);
+	printf("TestOpenSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch1->value));
+	keyPair testOpenSearch2 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair2);
+	printf("TestOpenSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch2->value));
+	keyPair testOpenSearch3 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair3);
+	printf("TestOpenSearch3Value :: %.2f ;\n", VOIDPTR_CAST(float, testOpenSearch3->value));
 	/* End testing of hashtable functionality */
 	timerStop(&hashTableTimer);
 	timerPrintDelta(hashTableTimer);
+
+	timerStart(&arrayTimer);
+	/* Start testing of dArray functionality */
+	tArray testArray1 = initArray(100, sizeof(int));
+
+	int testItem1 = 123;
+	pushArray(&testArray1, &testItem1);
+
+	int outputTest1 = 0;
+	getArrayAtIndex(&testArray1, &outputTest1, 0);
+
+	printf("\nItem at idx[0] :: %d ;\n", outputTest1);
+
+	/* End testing of dArray functionality */
+	timerStop(&arrayTimer);
+	timerPrintDelta(arrayTimer);
 
 	timerStart(&memoryFreeTimer);
 	/* Start testing of memory freeing functionality */
@@ -225,12 +263,14 @@ int main(void)
 	freeQueue(&queueTest);
 	freeLinkedList(&testLinkedList);
 	freeChainedHashTable(&testchainedHashTable1);
+	freeOpenHashTable(&testopenHashTable1);
+	freeArray(&testArray1);
 	free(test);
 	/* End testing of memory freeing functionality */
 	timerStop(&memoryFreeTimer);
 	timerPrintDelta(memoryFreeTimer);
 
-	double totalDeltaInSeconds = timerDelta(&matrixTimer) + timerDelta(&stackTimer) + timerDelta(&queueTimer) + timerDelta(&vectorTimer) + timerDelta(&linkedListTimer) + timerDelta(&hashTimer) + timerDelta(&hashTableTimer) + timerDelta(&memoryFreeTimer);
+	double totalDeltaInSeconds = timerDelta(&matrixTimer) + timerDelta(&stackTimer) + timerDelta(&queueTimer) + timerDelta(&vectorTimer) + timerDelta(&linkedListTimer) + timerDelta(&hashTimer) + timerDelta(&arrayTimer) + timerDelta(&hashTableTimer) + timerDelta(&memoryFreeTimer);
 	printf("\ntotalDelta: %.16f seconds . . .\n", totalDeltaInSeconds);
 	printf("\n");
 
