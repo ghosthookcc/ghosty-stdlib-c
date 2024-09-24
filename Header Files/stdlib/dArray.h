@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "string.h"
 
@@ -68,7 +69,11 @@ typedef struct tArray
 
 tArray initArray(unsigned int initCapacity, unsigned char memberSize);
 
+void expandArray(tArray* target);
+
 void pushArray(tArray* target, void* item);
+
+void getArrayAtIndex(tArray* target, void* outData, unsigned int idx);
 
 void printArray(tArray* target);
 

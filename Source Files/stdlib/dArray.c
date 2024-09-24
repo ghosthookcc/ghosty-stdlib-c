@@ -141,21 +141,52 @@ void freef64Array(f64Array* target)
 /* Start tArray definition */
 tArray initArray(unsigned int initCapacity, unsigned char memberSize)
 {
+	tArray newdArray = (tArray)malloc(sizeof(*newdArray) + memberSize * initCapacity);
+	newdArray->realSize = 0;
+	newdArray->capacity = initCapacity;
+	newdArray->memberSize = memberSize;
+	newdArray->items = (unsigned char*)calloc(initCapacity, memberSize);
+	return newdArray;
+}
 
+void expandArray(tArray* target)
+{
+	tArray dtarget = *target;
+	dtarget->capacity = dtarget->capacity * 2 + 1;
+	dtarget->items = (unsigned char*)realloc(dtarget->items, dtarget->memberSize * dtarget->capacity);
 }
 
 void pushArray(tArray* target, void* item)
 {
+	tArray dtarget = *target;
 
+	int newSizeIdx = dtarget->realSize+1; 
+	if (newSizeIdx > dtarget->capacity) expandArray(target);
+
+	void* targetDestinationInMemory = (unsigned char*)dtarget->items+(dtarget->memberSize * dtarget->realSize);
+	memcpy(targetDestinationInMemory, item, dtarget->memberSize);
+	dtarget->realSize = newSizeIdx;
+}
+
+void getArrayAtIndex(tArray* target, void* outData, unsigned int idx)
+{
+	tArray dtarget = *target;
+	if (idx >= 0 && idx < dtarget->capacity)
+	{
+		void* targetSourceInMemory = (unsigned char*)dtarget->items+(dtarget->memberSize * idx);
+		memcpy(outData, targetSourceInMemory, dtarget->memberSize);
+	}
+	outData = NULL;
 }
 
 void printArray(tArray* target)
 {
-
+	tArray dtarget = *target;
 }
 
 void freeArray(tArray* target)
 {
-
+	tArray dtarget = *target;
+	free(dtarget->items);
 }
 /* End tArray definition */
