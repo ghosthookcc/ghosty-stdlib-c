@@ -8,9 +8,9 @@
 // Stacks operate with LIFO (Last In First Out)
 typedef struct stack_t
 {
+	unsigned int top;
 	unsigned int capacity;
 	unsigned int memberSize;	
-	unsigned int top;
 	unsigned char* data;
 } *stack;
 
