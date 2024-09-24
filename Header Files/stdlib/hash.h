@@ -19,4 +19,4 @@ bucket initHashBucket(unsigned int hash);
 unsigned int murmur32Hash(const void* key, unsigned int keyLength, unsigned int seed);
 unsigned int fnv1AHash(const void* key, unsigned int keyLength, unsigned int seed);
 
-#endif
+#endif // HASH_H

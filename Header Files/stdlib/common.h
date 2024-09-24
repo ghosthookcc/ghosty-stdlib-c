@@ -13,4 +13,4 @@
 #define STATIC_CAST(type, expr)  ((type)(expr))
 #define VOIDPTR_CAST(type, expr) (*(type*)(expr))
 
-#endif
+#endif // COMMON_H

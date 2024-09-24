@@ -21,4 +21,4 @@ void timerStop(timer* timed);
 double timerDelta(timer* timed);
 void timerPrintDelta(timer timed);
 
-#endif
+#endif // TIMETEST_H

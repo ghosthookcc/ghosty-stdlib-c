@@ -9,4 +9,4 @@ typedef struct quaternion
 	double w;
 } quaternion;
 
-#endif
+#endif // QUATERNION_H

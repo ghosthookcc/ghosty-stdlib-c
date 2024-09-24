@@ -3,4 +3,4 @@
 
 typedef enum { false, true } boolean; 
 
-#endif
+#endif // BOOLEAN_H
