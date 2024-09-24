@@ -8,9 +8,9 @@
 // Queues operate with FIFO (First In First Out)
 typedef struct queue_t
 {
-	unsigned int size;
-	unsigned int capacity;
+	unsigned int realSize;
 	unsigned int memberSize;
+	unsigned int capacity;
 	unsigned char* data;
 } *queue;
 

@@ -1,13 +1,13 @@
 #include "../../Header Files/stdlib/queue.h"
 
 // Queues operate with FIFO (First In First Out)
-queue initQueue(unsigned int capacity, unsigned int dataSize)
+queue initQueue(unsigned int capacity, unsigned int memberSize)
 {
-	queue newQueue = (queue)malloc(sizeof(*newQueue) + (capacity * dataSize));
-	newQueue->size = 0;
+	queue newQueue = (queue)malloc(sizeof(*newQueue) +  memberSize * capacity);
+	newQueue->realSize = 0;
 	newQueue->capacity = capacity;
-	newQueue->memberSize = dataSize;
-	newQueue->data = (unsigned char*)malloc(capacity * dataSize);
+	newQueue->memberSize = memberSize;
+	newQueue->data = (unsigned char*)malloc(memberSize * capacity);
 	return newQueue;
 }
 
@@ -21,41 +21,40 @@ void expandQueue(queue* targetPtr)
 void enqueueQueue(queue* targetPtr, void* inData)
 {
 	queue dtarget = *targetPtr;
-	int newSizeIdx = dtarget->size+1; 
+	int newSizeIdx = dtarget->realSize+1; 
 	if (newSizeIdx > dtarget->capacity) expandQueue(targetPtr);
 
-	void* targetDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize*newSizeIdx);
+	void* targetDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize * dtarget->realSize);
 	memcpy(targetDestinationInMemory, inData, dtarget->memberSize);
-	dtarget->size = newSizeIdx;
+	dtarget->realSize = newSizeIdx;
 }
 
 void dequeueQueue(queue* targetPtr, void* outData)
 {
 	queue dtarget = *targetPtr;
-	if (dtarget->size == 0) return;
-	int newSizeIdx = dtarget->size-1;
+	if (dtarget->realSize == 0) return;
+	int newSizeIdx = dtarget->realSize-1;
 
-	void* sourceDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize);
+	void* sourceDestinationInMemory = (unsigned char*)dtarget->data;
 	memcpy(outData, sourceDestinationInMemory, dtarget->memberSize);
 
 	void* frontDestinationInMemory;
 	void* rearDestinationInMemory;
-	for (int idx = 1; idx <= newSizeIdx; idx++)
+	for (int idx = 0; idx < newSizeIdx; idx++)
 	{		
-		frontDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize*idx);
-		rearDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize*(idx+1));
+		frontDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize * idx);
+		rearDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize * (idx+1));
 		memcpy(frontDestinationInMemory, rearDestinationInMemory, dtarget->memberSize);
 	}
-
-	dtarget->size = newSizeIdx;
+	dtarget->realSize = newSizeIdx;
 }
 
 void peekQueue(queue* targetPtr, void* outData)
 {
 	queue dtarget = *targetPtr;
-	if (dtarget->size == 0) return;
+	if (dtarget->realSize == 0) return;
 
-	void* sourceDestinationInMemory = (unsigned char*)dtarget->data+(dtarget->memberSize);
+	void* sourceDestinationInMemory = (unsigned char*)dtarget->data;
 	memcpy(outData, sourceDestinationInMemory, dtarget->memberSize);
 } 
 
