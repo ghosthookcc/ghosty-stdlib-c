@@ -1,11 +1,8 @@
-#include "Header Files/stdlib/hash.h"
-#include "Header Files/stdlib/hashtable.h"
-#include "Header Files/stdlib/linkedList.h"
 #include "Header Files/stdlib/mystdlib.h"
 
 int main(void)
 {
-	//printf("\n");
+	DebugPrint("\n");
 
 	timer matrixTimer = TimerDefault;
 	timer stackTimer = TimerDefault;
@@ -31,44 +28,42 @@ int main(void)
 
 	for (int row = 0; row < s.rows; row++)
 	{
-		//printf(" ");
+		DebugPrint(" ");
 		for (int column = 0; column < s.columns; column++)
 		{
-			//printf("%.0f ", s.matrix[(row * s.rows) + column]);
+			DebugPrint("%.0f ", s.matrix[(row * s.rows) + column]);
 		}
-		//printf("\n");
+		DebugPrint("\n");
 	}
-
-	//printf("\n");
+	DebugPrint("\n");
 
 	matf4x4 ss = matf4x4Identity;
 	for (int row = 0; row < ss.rows; row++)
 	{
-		//printf(" ");
+		DebugPrint(" ");
 		for (int column = 0; column < ss.columns; column++)
 		{
-			//printf("%.0f ", ss.matrix[(row * ss.rows) + column]);
+			DebugPrint("%.0f ", ss.matrix[(row * ss.rows) + column]);
 		}
-		//printf("\n");
+		DebugPrint("\n");
 	}
-	//printf("\n");
+	DebugPrint("\n");
 
 	matfSized matf = initMatfSized(6, 6);
 	initMatfSizedIdentity(&matf);
 
-	//printf(" SizeMatRowsT : %d ;\n", matf.rows);
-	//printf(" SizeMatColumnsT : %d ;\n\n", matf.columns);
+	DebugPrint(" SizeMatRowsT : %d ;\n", matf.rows);
+	DebugPrint(" SizeMatColumnsT : %d ;\n\n", matf.columns);
 
 	for (unsigned char row = 0; row < matf.rows; row++)
 	{
-		//printf(" ");
+		DebugPrint(" ");
 		for (unsigned char column = 0; column < matf.columns; column++)
 		{
-			//printf("%.0f ", matf.matrix[(row * matf.columns) + column]);
+			DebugPrint("%.0f ", matf.matrix[(row * matf.columns) + column]);
 		}
-		//printf("\n");
+		DebugPrint("\n");
 	}
-	//printf("\n");
 	/* End testing of matf functionality */
 	timerStop(&matrixTimer);
 	timerPrintDelta(matrixTimer);
@@ -91,15 +86,15 @@ int main(void)
 	pushStack(&stackTest, &testValue3);
 	peekStack(&stackTest, &top);
 
-	//printf(" Top : %d ;\n", top);
+	DebugPrint("\n Top : %d ;\n", top);
 	popStack(&stackTest, &top);
-	//printf(" POP\n");
+	DebugPrint(" POP\n");
 	peekStack(&stackTest, &top);
-	//printf(" Top : %d ;\n", top);
+	DebugPrint(" Top : %d ;\n", top);
 	popStack(&stackTest, &top);
-	//printf(" POP\n");
+	DebugPrint(" POP\n");
 	peekStack(&stackTest, &top);
-	//printf(" Top : %d ;\n\n", top);
+	DebugPrint(" Top : %d ;\n", top);
 	/* End testing of stack functionality */
 	timerStop(&stackTimer);
 	timerPrintDelta(stackTimer);
@@ -118,15 +113,15 @@ int main(void)
 	enqueueQueue(&queueTest, &testValue6);
 	peekQueue(&queueTest, &next);
 
-	//printf(" Next : %d ;\n", next);
+	DebugPrint("\n Next : %d ;\n", next);
 	dequeueQueue(&queueTest, &next);
-	//printf(" DEQUEUE\n");
+	DebugPrint(" DEQUEUE\n");
 	peekQueue(&queueTest, &next);
-	//printf(" Next : %d ;\n", next);
+	DebugPrint(" Next : %d ;\n", next);
 	dequeueQueue(&queueTest, &next);
-	//printf(" DEQUEUE\n");
+	DebugPrint(" DEQUEUE\n");
 	peekQueue(&queueTest, &next);
-	//printf(" Next : %d ;\n\n", next);
+	DebugPrint(" Next : %d ;\n", next);
 	/* End testing of queue functionality */
 	timerStop(&queueTimer);
 	timerPrintDelta(queueTimer);
@@ -138,10 +133,10 @@ int main(void)
 	dvector3 testVec3 = dvec3(0.0, 0.0, 0.0);
 	dvector2 testVec4 = dvec2(0.0, 0.0);
 
-	//printf(" testVec1 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec1.x, testVec1.y, testVec1.z);
-	//printf(" testVec2 : x{%.1f}, y{%.1f} ;\n", testVec2.x, testVec2.y);
-	//printf(" testVec3 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec3.x, testVec3.y, testVec3.z);
-	//printf(" testVec4 : x{%.1f}, y{%.1f} ;\n\n", testVec4.x, testVec4.y);
+	DebugPrint("\n testVec1 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec1.x, testVec1.y, testVec1.z);
+	DebugPrint(" testVec2 : x{%.1f}, y{%.1f} ;\n", testVec2.x, testVec2.y);
+	DebugPrint(" testVec3 : x{%.1f}, y{%.1f}, z{%.1f} ;\n", testVec3.x, testVec3.y, testVec3.z);
+	DebugPrint(" testVec4 : x{%.1f}, y{%.1f} ;\n", testVec4.x, testVec4.y);
 	/* End testing of vector functionality */
 	timerStop(&vectorTimer);
 	timerPrintDelta(vectorTimer);
@@ -162,10 +157,10 @@ int main(void)
 	node testNode3 = initLinkedListNode(&testDoubleValue1);
 	insertIntoLinkedListBeginning(&testLinkedList, testNode3);
 
-	//printf(" New next value of node2 :: %.3f ;\n", *(float*)testNode2->next->value);
-	//printf(" New previous value of node1 :: %d ;\n", *(int*)testNode1->previous->value);
-    //printf(" New head of linkedList :: %.6f ;\n", *(double*)testLinkedList->head->value);
-    //printf(" New tail of linkedList :: %.3f ;\n\n", *(float*)testLinkedList->tail->value);
+	DebugPrint("\n New next value of node2 :: %.3f ;\n", *(float*)testNode2->next->value);
+	DebugPrint(" New previous value of node1 :: %d ;\n", *(int*)testNode1->previous->value);
+    DebugPrint(" New head of linkedList :: %.6f ;\n", *(double*)testLinkedList->head->value);
+    DebugPrint(" New tail of linkedList :: %.3f ;\n", *(float*)testLinkedList->tail->value);
 	/* End testing of linkedList functionality */
 	timerStop(&linkedListTimer);
 	timerPrintDelta(linkedListTimer);
@@ -173,16 +168,15 @@ int main(void)
 	timerStart(&hashTimer);
 	/* Start testing of hash functionality */
 	unsigned int UINT_MAX = 4294967290;
-	//printf(" UINT_MAX_BYTE0 :: %d ;\n", UINT_MAX % 0b11111111);
+	DebugPrint("\n UINT_MAX_BYTE0 :: %d ;\n", UINT_MAX % 255);
 
 	unsigned int key = 2222;
 	unsigned int outHash = murmur32Hash(&key, sizeof(key), 0);
-	//printf(" KEY {2222} HASHOUT :: %u | %x ;\n", outHash, outHash);
+	DebugPrint(" KEY {2222} HASHOUT :: %u | %x ;\n", outHash, outHash);
 
 	unsigned int key2 = 4323;
 	unsigned int outHash2 = fnv1AHash(&key2, sizeof(key2), 0);
-	//printf(" KEY2 {4323} HASHOUT :: %u | %x ;", outHash2, outHash2);
-	//printf("\n\n");
+	DebugPrint(" KEY2 {4323} HASHOUT :: %u | %x ;\n", outHash2, outHash2);
 	/* End testing of hash functionality */
 	timerStop(&hashTimer);
 	timerPrintDelta(hashTimer);
@@ -194,48 +188,48 @@ int main(void)
 	unsigned int keyName1 = 12;
 	float keyValue1 = 53.2f;
 	keyPair testKeyPair1 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName1, &keyValue1, 4, UnsignedIntEqual);
-	printf("\nTestInsert1ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair1->key));
+	DebugPrint("\n TestInsert1ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair1->key));
 
 	unsigned int keyName2 = 12;
 	int keyValue2 = 4;
 	keyPair testKeyPair2 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName2, &keyValue2, 4, UnsignedIntEqual);
-	printf("TestInsert2ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair2->key));
+	DebugPrint(" TestInsert2ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair2->key));
 
 	unsigned int keyName3 = 1231;
 	float keyValue3 = 12312.223f;
 	keyPair testKeyPair3 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName3, &keyValue3, 4, UnsignedIntEqual);
-	printf("TestInsert3ValueKey :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testKeyPair3->key));
+	DebugPrint(" TestInsert3ValueKey :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testKeyPair3->key));
 
 	keyPair testSearch1 = searchChainedHashTable(testchainedHashTable1, testKeyPair1);
-	printf("TestSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testSearch1->value));
+	DebugPrint(" TestSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testSearch1->value));
 	keyPair testSearch2 = searchChainedHashTable(testchainedHashTable1, testKeyPair2);
-	printf("TestSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testSearch2->value));
+	DebugPrint(" TestSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testSearch2->value));
 	keyPair testSearch3 = searchChainedHashTable(testchainedHashTable1, testKeyPair3);
-	printf("TestSearch3Value :: %.2f ;\n\n\n", VOIDPTR_CAST(float, testSearch3->value));
+	DebugPrint(" TestSearch3Value :: %.2f ;\n\n\n", VOIDPTR_CAST(float, testSearch3->value));
 	
 	openHashTable testopenHashTable1 = initOpenHashTable(100);
 
 	unsigned int openKeyName1 = 12;
 	float openKeyValue1 = 2131.23f;
 	keyPair testOpenKeyPair1 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName1, &openKeyValue1, 4, UnsignedIntEqual);
-	printf("TestOpenInsert1 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair1->key));
+	DebugPrint(" TestOpenInsert1 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair1->key));
 
 	unsigned int openKeyName2 = 12;
 	int openKeyValue2 = 541;
 	keyPair testOpenKeyPair2 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName2, &openKeyValue2, 4, UnsignedIntEqual);
-	printf("TestOpenInsert2 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair2->key));
+	DebugPrint(" TestOpenInsert2 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair2->key));
 
 	unsigned int openKeyName3 = 1231;
 	float openKeyValue3 = 4123521.23f;
 	keyPair testOpenKeyPair3 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName3, &openKeyValue3, 4, UnsignedIntEqual);
-	printf("TestOpenInsert3 :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair3->key));
+	DebugPrint(" TestOpenInsert3 :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair3->key));
 
 	keyPair testOpenSearch1 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair1);
-	printf("TestOpenSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch1->value));
+	DebugPrint(" TestOpenSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch1->value));
 	keyPair testOpenSearch2 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair2);
-	printf("TestOpenSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch2->value));
+	DebugPrint(" TestOpenSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch2->value));
 	keyPair testOpenSearch3 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair3);
-	printf("TestOpenSearch3Value :: %.2f ;\n", VOIDPTR_CAST(float, testOpenSearch3->value));
+	DebugPrint(" TestOpenSearch3Value :: %.2f ;\n", VOIDPTR_CAST(float, testOpenSearch3->value));
 	/* End testing of hashtable functionality */
 	timerStop(&hashTableTimer);
 	timerPrintDelta(hashTableTimer);
@@ -250,8 +244,7 @@ int main(void)
 	int outputTest1 = 0;
 	getArrayAtIndex(&testArray1, &outputTest1, 0);
 
-	printf("\nItem at idx[0] :: %d ;\n", outputTest1);
-
+	DebugPrint("\n Item at idx[0] :: %d ;\n", outputTest1);
 	/* End testing of dArray functionality */
 	timerStop(&arrayTimer);
 	timerPrintDelta(arrayTimer);
