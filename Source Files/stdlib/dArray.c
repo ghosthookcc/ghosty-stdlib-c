@@ -28,17 +28,6 @@ void pushi32Array(i32Array* targetPtr, int item)
 	dtarget->realSize++;
 }
 
-void printi32Array(i32Array* targetPtr)
-{
-	printf("\n");
-	i32Array dtarget = *targetPtr;
-	for (unsigned int idx = 0; idx < dtarget->realSize; idx++)
-	{
-		printf("%d ", dtarget->items[idx]);
-	}
-	printf("\n");
-}
-
 void freei32Array(i32Array* targetPtr)
 {
 	i32Array dtarget = *targetPtr;
@@ -77,17 +66,6 @@ void pushf32Array(f32Array* targetPtr, float item)
 	dtarget->realSize++;
 }
 
-void printf32Array(f32Array* targetPtr)
-{
-	printf("\n");
-	f32Array dtarget = *targetPtr;
-	for (unsigned int idx = 0; idx < dtarget->realSize; idx++)
-	{
-		printf("%f ", dtarget->items[idx]);
-	}
-	printf("\n");
-}
-
 void freef32Array(f32Array* targetPtr)
 {
 	f32Array dtarget = *targetPtr;
@@ -124,17 +102,6 @@ void pushf64Array(f64Array* targetPtr, double item)
 
 	dtarget->items[dtarget->realSize] = item;
 	dtarget->realSize++;
-}
-
-void printf64Array(f64Array* targetPtr)
-{
-	printf("\n");
-	f64Array dtarget = *targetPtr;
-	for (unsigned int idx = 0; idx < dtarget->realSize; idx++)
-	{
-		printf("%f ", dtarget->items[idx]);
-	}
-	printf("\n");
 }
 
 void freef64Array(f64Array* targetPtr)
@@ -186,11 +153,6 @@ void getArrayAtIndex(tArray* targetPtr, void* outData, unsigned int idx)
 		memcpy(outData, targetSourceInMemory, dtarget->memberSize);
 	}
 	outData = NULL;
-}
-
-void printArray(tArray* targetPtr)
-{
-	tArray dtarget = *targetPtr;
 }
 
 void freeArray(tArray* targetPtr)

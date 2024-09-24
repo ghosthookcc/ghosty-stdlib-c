@@ -21,8 +21,6 @@ void exapndi32Array(i32Array* targetPtr);
 
 void pushi32Array(i32Array* targetPtr, int item);
 
-void printi32Array(i32Array* targetPtr);
-
 void freei32Array(i32Array* targetPtr);
 /* End i32Array declaration */
 
@@ -40,8 +38,6 @@ void expandf32Array(f32Array* targetPtr);
 
 void pushf32Array(f32Array* targetPtr, float item);
 
-void printf32Array(f32Array* targetPtr);
-
 void freef32Array(f32Array* targetPtr);
 /* End f32Array declaration */
 
@@ -58,8 +54,6 @@ f64Array initf64Array(unsigned int capacity);
 void expandf64Array(f64Array* targetPtr);
 
 void pushf64Array(f64Array* targetPtr, double item);
-
-void printf64Array(f64Array* targetPtr);
 
 void freef64Array(f64Array* targetPtr);
 /* End f64Array declaration */
@@ -80,8 +74,6 @@ void expandArray(tArray* targetPtr);
 void pushArray(tArray* targetPtr, void* item);
 
 void getArrayAtIndex(tArray* targetPtr, void* outData, unsigned int idx);
-
-void printArray(tArray* targetPtr);
 
 void freeArray(tArray* targetPtr);
 
