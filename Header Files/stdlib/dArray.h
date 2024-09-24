@@ -10,52 +10,58 @@
 /* Start i32Array declaration */
 typedef struct i32Array
 {
-	int* items;
 	unsigned int realSize;
 	unsigned int capacity;
+	int* items;
 } *i32Array;
 
-i32Array initi32Array(unsigned int initCapacity);
+i32Array initi32Array(unsigned int capacity);
 
-void pushi32Array(i32Array* target, int item);
+void exapndi32Array(i32Array* targetPtr);
 
-void printi32Array(i32Array* target);
+void pushi32Array(i32Array* targetPtr, int item);
 
-void freei32Array(i32Array* target);
+void printi32Array(i32Array* targetPtr);
+
+void freei32Array(i32Array* targetPtr);
 /* End i32Array declaration */
 
 /* Start f32Array declaration */
 typedef struct f32Array
 {
-	float* items;
 	unsigned int realSize;
 	unsigned int capacity;
+	float* items;
 } *f32Array;
 
-f32Array initf32Array(unsigned int initCapacity);
+f32Array initf32Array(unsigned int capacity);
 
-void pushf32Array(f32Array* target, float item);
+void expandf32Array(f32Array* targetPtr);
 
-void printf32Array(f32Array* target);
+void pushf32Array(f32Array* targetPtr, float item);
 
-void freef32Array(f32Array* target);
+void printf32Array(f32Array* targetPtr);
+
+void freef32Array(f32Array* targetPtr);
 /* End f32Array declaration */
 
 /* Start f64Array declaration */
 typedef struct f64Array
 {
-	double* items;
 	unsigned int realSize;
 	unsigned int capacity;
+	double* items;
 } *f64Array;
 
-f64Array initf64Array(unsigned int initCapacity);
+f64Array initf64Array(unsigned int capacity);
 
-void pushf64Array(f64Array* target, double item);
+void expandf64Array(f64Array* targetPtr);
 
-void printf64Array(f64Array* target);
+void pushf64Array(f64Array* targetPtr, double item);
 
-void freef64Array(f64Array* target);
+void printf64Array(f64Array* targetPtr);
+
+void freef64Array(f64Array* targetPtr);
 /* End f64Array declaration */
 
 /* Start tArray declaration */
@@ -67,17 +73,17 @@ typedef struct tArray
 	unsigned char* items;
 } *tArray;
 
-tArray initArray(unsigned int initCapacity, unsigned char memberSize);
+tArray initArray(unsigned int capacity, unsigned char memberSize);
 
-void expandArray(tArray* target);
+void expandArray(tArray* targetPtr);
 
-void pushArray(tArray* target, void* item);
+void pushArray(tArray* targetPtr, void* item);
 
-void getArrayAtIndex(tArray* target, void* outData, unsigned int idx);
+void getArrayAtIndex(tArray* targetPtr, void* outData, unsigned int idx);
 
-void printArray(tArray* target);
+void printArray(tArray* targetPtr);
 
-void freeArray(tArray* target);
+void freeArray(tArray* targetPtr);
 
 /* End tArray declaration */
 

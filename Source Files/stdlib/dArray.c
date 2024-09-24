@@ -1,176 +1,185 @@
 #include "../../Header Files/stdlib/dArray.h"
 
 /* Start i32Array definition */
-i32Array initi32Array(unsigned int initCapacity)
+i32Array initi32Array(unsigned int capacity)
 {
-	i32Array new = malloc(sizeof(*new) + (sizeof(int) * initCapacity));
+	i32Array newi32Array = (i32Array)malloc(sizeof(*newi32Array) + (sizeof(int) * capacity));
 	
-	new->items = malloc(sizeof(int) * initCapacity);
-	new->realSize = 0;
-	new->capacity = initCapacity;
+	newi32Array->items = (int*)calloc(capacity, sizeof(int));
+	newi32Array->realSize = 0;
+	newi32Array->capacity = capacity;
 
-	return(new);
+	return(newi32Array);
 }	
 
-void pushi32Array(i32Array* target, int item)
+void expandi32Array(i32Array* targetPtr)
 {
-	i32Array targetDerefed = *target;
-	if ( targetDerefed->realSize == targetDerefed->capacity )
-	{
-		// Grow target array by 2k+1
-		targetDerefed->capacity = targetDerefed->capacity * 2 + 1;
-		targetDerefed->items = realloc(targetDerefed->items, sizeof(int) * targetDerefed->capacity);
-	}
-	targetDerefed->items[targetDerefed->realSize] = item;
-	targetDerefed->realSize++;
+	i32Array dtarget = *targetPtr;
+	dtarget->capacity = dtarget->capacity * 2 + 1;
+	dtarget->items = realloc(dtarget->items, sizeof(int) * dtarget->capacity);
 }
 
-void printi32Array(i32Array* target)
+void pushi32Array(i32Array* targetPtr, int item)
+{
+	i32Array dtarget = *targetPtr;
+	if (dtarget->realSize == dtarget->capacity) expandi32Array(targetPtr);
+
+	dtarget->items[dtarget->realSize] = item;
+	dtarget->realSize++;
+}
+
+void printi32Array(i32Array* targetPtr)
 {
 	printf("\n");
-	i32Array targetDerefed = *target;
-	for (unsigned int idx = 0; idx < targetDerefed->realSize; idx++)
+	i32Array dtarget = *targetPtr;
+	for (unsigned int idx = 0; idx < dtarget->realSize; idx++)
 	{
-		printf("%d ", targetDerefed->items[idx]);
+		printf("%d ", dtarget->items[idx]);
 	}
 	printf("\n");
 }
 
-void freei32Array(i32Array* target)
+void freei32Array(i32Array* targetPtr)
 {
-	i32Array targetDerefed = *target;
-	free(targetDerefed->items);
-	targetDerefed->items = NULL;
-	targetDerefed->realSize = targetDerefed->capacity = 0;
-	free(targetDerefed);
+	i32Array dtarget = *targetPtr;
+	free(dtarget->items);
+	dtarget->items = NULL;
+	dtarget->realSize = dtarget->capacity = 0;
+	free(dtarget);
 }
 /* End i32Array definition */
 
 /* Start f32Array definition */
-f32Array initf32Array(unsigned int initCapacity)
+f32Array initf32Array(unsigned int capacity)
 {
-	f32Array new = malloc(sizeof(*new) + (sizeof(float) * initCapacity));
+	f32Array newf32Array = (f32Array)malloc(sizeof(*newf32Array) + (sizeof(float) * capacity));
 	
-	new->items = malloc(sizeof(float) * initCapacity);
-	new->realSize = 0;
-	new->capacity = initCapacity;
+	newf32Array->items = (float*)malloc(sizeof(float) * capacity);
+	newf32Array->realSize = 0;
+	newf32Array->capacity = capacity;
 
-	return(new);
+	return(newf32Array);
 }	
 
-void pushf32Array(f32Array* target, float item)
+void expandf32Array(f32Array* targetPtr)
 {
-	f32Array targetDerefed = *target;
-	if ( targetDerefed->realSize == targetDerefed->capacity )
-	{
-		// Grow target array by 2k+1
-		targetDerefed->capacity = targetDerefed->capacity * 2 + 1;
-		targetDerefed->items = realloc(targetDerefed->items, sizeof(float) * targetDerefed->capacity);
-	}
-	targetDerefed->items[targetDerefed->realSize] = item;
-	targetDerefed->realSize++;
+	f32Array dtarget = *targetPtr;
+	dtarget->capacity = dtarget->capacity * 2 + 1;
+	dtarget->items = realloc(dtarget->items, sizeof(float) * dtarget->capacity);	
 }
 
-void printf32Array(f32Array* target)
+void pushf32Array(f32Array* targetPtr, float item)
+{
+	f32Array dtarget = *targetPtr;
+	if (dtarget->realSize == dtarget->capacity) expandf32Array(targetPtr);
+
+	dtarget->items[dtarget->realSize] = item;
+	dtarget->realSize++;
+}
+
+void printf32Array(f32Array* targetPtr)
 {
 	printf("\n");
-	f32Array targetDerefed = *target;
-	for (unsigned int idx = 0; idx < targetDerefed->realSize; idx++)
+	f32Array dtarget = *targetPtr;
+	for (unsigned int idx = 0; idx < dtarget->realSize; idx++)
 	{
-		printf("%f ", targetDerefed->items[idx]);
+		printf("%f ", dtarget->items[idx]);
 	}
 	printf("\n");
 }
 
-void freef32Array(f32Array* target)
+void freef32Array(f32Array* targetPtr)
 {
-	f32Array targetDerefed = *target;
-	free(targetDerefed->items);
-	targetDerefed->items = NULL;
-	targetDerefed->realSize = targetDerefed->capacity = 0;
-	free(targetDerefed);
+	f32Array dtarget = *targetPtr;
+	free(dtarget->items);
+	dtarget->items = NULL;
+	dtarget->realSize = dtarget->capacity = 0;
+	free(dtarget);
 }
 /* End f32Array definition */
 
 /* Start f64Array definition */
-f64Array initf64Array(unsigned int initCapacity)
+f64Array initf64Array(unsigned int capacity)
 {
-	f64Array new = malloc(sizeof(*new) + (sizeof(double) * initCapacity));
+	f64Array newf64Array = (f64Array)malloc(sizeof(*newf64Array) + (sizeof(double) * capacity));
 	
-	new->items = malloc(sizeof(double) * initCapacity);
-	new->realSize = 0;
-	new->capacity = initCapacity;
+	newf64Array->items = (double*)malloc(sizeof(double) * capacity);
+	newf64Array->realSize = 0;
+	newf64Array->capacity = capacity;
 
-	return(new);
+	return(newf64Array);
 }	
 
-void pushf64Array(f64Array* target, double item)
+void expandf64Array(f64Array* targetPtr)
 {
-	f64Array targetDerefed = *target;
-	if ( targetDerefed->realSize == targetDerefed->capacity )
-	{
-		// Grow target array by 2k+1
-		targetDerefed->capacity = targetDerefed->capacity * 2 + 1;
-		targetDerefed->items = realloc(targetDerefed->items, sizeof(double) * targetDerefed->capacity);
-	}
-	targetDerefed->items[targetDerefed->realSize] = item;
-	targetDerefed->realSize++;
+	f64Array dtarget = *targetPtr;
+	dtarget->capacity = dtarget->capacity * 2 + 1;
+	dtarget->items = realloc(dtarget->items, sizeof(double) * dtarget->capacity);
 }
 
-void printf64Array(f64Array* target)
+void pushf64Array(f64Array* targetPtr, double item)
+{
+	f64Array dtarget = *targetPtr;
+	if (dtarget->realSize == dtarget->capacity) expandf64Array(targetPtr);
+
+	dtarget->items[dtarget->realSize] = item;
+	dtarget->realSize++;
+}
+
+void printf64Array(f64Array* targetPtr)
 {
 	printf("\n");
-	f64Array targetDerefed = *target;
-	for (unsigned int idx = 0; idx < targetDerefed->realSize; idx++)
+	f64Array dtarget = *targetPtr;
+	for (unsigned int idx = 0; idx < dtarget->realSize; idx++)
 	{
-		printf("%f ", targetDerefed->items[idx]);
+		printf("%f ", dtarget->items[idx]);
 	}
 	printf("\n");
 }
 
-void freef64Array(f64Array* target)
+void freef64Array(f64Array* targetPtr)
 {
-	f64Array targetDerefed = *target;
-	free(targetDerefed->items);
-	targetDerefed->items = NULL;
-	targetDerefed->realSize = targetDerefed->capacity = 0;
-	free(targetDerefed);
+	f64Array dtarget = *targetPtr;
+	free(dtarget->items);
+	dtarget->items = NULL;
+	dtarget->realSize = dtarget->capacity = 0;
+	free(dtarget);
 }
 /* End f64Array definition */
 
 /* Start tArray definition */
-tArray initArray(unsigned int initCapacity, unsigned char memberSize)
+tArray initArray(unsigned int capacity, unsigned char memberSize)
 {
-	tArray newdArray = (tArray)malloc(sizeof(*newdArray) + memberSize * initCapacity);
+	tArray newdArray = (tArray)malloc(sizeof(*newdArray) + memberSize * capacity);
 	newdArray->realSize = 0;
-	newdArray->capacity = initCapacity;
+	newdArray->capacity = capacity;
 	newdArray->memberSize = memberSize;
-	newdArray->items = (unsigned char*)calloc(initCapacity, memberSize);
+	newdArray->items = (unsigned char*)calloc(capacity, memberSize);
 	return newdArray;
 }
 
-void expandArray(tArray* target)
+void expandArray(tArray* targetPtr)
 {
-	tArray dtarget = *target;
+	tArray dtarget = *targetPtr;
 	dtarget->capacity = dtarget->capacity * 2 + 1;
-	dtarget->items = (unsigned char*)realloc(dtarget->items, dtarget->memberSize * dtarget->capacity);
+	dtarget->items = realloc(dtarget->items, dtarget->memberSize * dtarget->capacity);
 }
 
-void pushArray(tArray* target, void* item)
+void pushArray(tArray* targetPtr, void* item)
 {
-	tArray dtarget = *target;
+	tArray dtarget = *targetPtr;
 
 	int newSizeIdx = dtarget->realSize+1; 
-	if (newSizeIdx > dtarget->capacity) expandArray(target);
+	if (newSizeIdx > dtarget->capacity) expandArray(targetPtr);
 
 	void* targetDestinationInMemory = (unsigned char*)dtarget->items+(dtarget->memberSize * dtarget->realSize);
 	memcpy(targetDestinationInMemory, item, dtarget->memberSize);
 	dtarget->realSize = newSizeIdx;
 }
 
-void getArrayAtIndex(tArray* target, void* outData, unsigned int idx)
+void getArrayAtIndex(tArray* targetPtr, void* outData, unsigned int idx)
 {
-	tArray dtarget = *target;
+	tArray dtarget = *targetPtr;
 	if (idx >= 0 && idx < dtarget->capacity)
 	{
 		void* targetSourceInMemory = (unsigned char*)dtarget->items+(dtarget->memberSize * idx);
@@ -179,14 +188,15 @@ void getArrayAtIndex(tArray* target, void* outData, unsigned int idx)
 	outData = NULL;
 }
 
-void printArray(tArray* target)
+void printArray(tArray* targetPtr)
 {
-	tArray dtarget = *target;
+	tArray dtarget = *targetPtr;
 }
 
-void freeArray(tArray* target)
+void freeArray(tArray* targetPtr)
 {
-	tArray dtarget = *target;
+	tArray dtarget = *targetPtr;
 	free(dtarget->items);
+	free(dtarget);
 }
 /* End tArray definition */
