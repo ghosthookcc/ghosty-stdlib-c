@@ -43,7 +43,7 @@ typedef struct chainedHashTable_t
 // Speed under low load factor
 typedef struct addressedHashTable_t
 {
-    openHashTableBucket*  buckets;
+    openHashTableBucket* buckets;
     unsigned int entryCount;
     unsigned int capacity;   
 } *openHashTable;
@@ -61,6 +61,8 @@ openHashTable initOpenHashTable(unsigned int capacity);
 
 keyPair insertIntoOpenHashTable(openHashTable* targetPtr, void* key, void* value, unsigned int keyLength, equalCallback equal);
 keyPair searchOpenHashTable(openHashTable targetPtr, keyPair searchForKeyPair);
+
+void freeOpenHashTable(openHashTable* targetPtr);
 
 openHashTableBucket initOpenHashTableBucket(unsigned int hash, keyPair data);
 

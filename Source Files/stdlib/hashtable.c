@@ -128,22 +128,97 @@ void freeChainedHashTable(chainedHashTable* targetPtr)
 
 openHashTable initOpenHashTable(unsigned int capacity)
 {
-    
+    openHashTable newHashTable = (openHashTable)malloc(sizeof(*newHashTable) + sizeof(openHashTableBucket) * capacity);
+    newHashTable->buckets = (openHashTableBucket*)malloc(sizeof(openHashTableBucket) * capacity);
+    newHashTable->entryCount = 0;
+    newHashTable->capacity = capacity;
+    for (unsigned int idx = 0; idx < capacity; idx++)
+    {
+        newHashTable->buckets[idx] = NULL;
+    }
+    return newHashTable;
 }
 
 keyPair insertIntoOpenHashTable(openHashTable* targetPtr, void* key, void* value, unsigned int keyLength, equalCallback equal)
 {
+    openHashTable dtarget = *targetPtr;
+    unsigned int hash = fnv1AHash(key, keyLength, 0);
+    unsigned int hashTableIdx = hash % dtarget->capacity;
 
+    keyPair newKeyPair = initKeyPair(key, value, keyLength, equal);
+
+    openHashTableBucket openBucket = dtarget->buckets[hashTableIdx];
+    if (openBucket == NULL)
+    {
+        dtarget->buckets[hashTableIdx] = initOpenHashTableBucket(hash, newKeyPair);
+        dtarget->buckets[hashTableIdx]->_bucket.size += 1;
+        return dtarget->buckets[hashTableIdx]->data;
+    }
+
+    if (openBucket->_bucket.hash == hash && openBucket->data->equal(openBucket->data->key, newKeyPair->key))
+    {
+        openBucket->data->value = newKeyPair->value;
+        free(newKeyPair);
+        return openBucket->data;
+    }
+
+    unsigned int hashTableIdxAlternate = hashTableIdx + 1;
+    while (hashTableIdxAlternate < dtarget->capacity)
+    {
+        openBucket = dtarget->buckets[hashTableIdxAlternate];
+        if (openBucket != NULL && openBucket->_bucket.hash == hash && openBucket->data->equal(key, newKeyPair->key))
+        {
+            openBucket = initOpenHashTableBucket(hash, newKeyPair);
+            openBucket->_bucket.size += 1;
+            return openBucket->data;
+        }
+        hashTableIdxAlternate++;
+    }
+    return NULL;
 }
 
 keyPair searchOpenHashTable(openHashTable targetPtr, keyPair searchForKeyPair)
 {
+    unsigned int hash = fnv1AHash(searchForKeyPair->key, searchForKeyPair->keyLength, 0);
+    unsigned int hashTableIdx = hash % targetPtr->capacity;
 
+    openHashTableBucket openBucket = NULL;
+    while (hashTableIdx < targetPtr->capacity)
+    {
+        openBucket = targetPtr->buckets[hashTableIdx]; 
+        if (openBucket != NULL && openBucket->_bucket.hash == hash && openBucket->data->equal(openBucket->data->key, searchForKeyPair->key))
+        {
+            return openBucket->data;
+        }
+        hashTableIdx++;
+    }
+    return NULL;
+}
+
+void freeOpenHashTable(openHashTable* targetPtr)
+{
+    openHashTable dtarget = *targetPtr;
+    unsigned int idx = 0;
+    while (idx < dtarget->capacity)
+    {
+        if (dtarget->buckets[idx] != NULL)
+        {
+            openHashTableBucket currentBucket = dtarget->buckets[idx];
+            free(currentBucket->data);
+            free(currentBucket);
+        }
+        idx += 1;
+    }
+    free(dtarget->buckets);
+    free(dtarget);
 }
 
 openHashTableBucket initOpenHashTableBucket(unsigned int hash, keyPair data)
 {
-
+    openHashTableBucket newHashTableBucket = (openHashTableBucket)malloc(sizeof(*newHashTableBucket));
+    newHashTableBucket->_bucket = initHashBucket(hash);
+    newHashTableBucket->data = data;
+    return newHashTableBucket;
 }
 
 keyPair initKeyPair(void* key, void* value, unsigned int keyLength, equalCallback equal)
