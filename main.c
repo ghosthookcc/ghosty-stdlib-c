@@ -207,29 +207,37 @@ int main(void)
 	keyPair testSearch3 = searchChainedHashTable(testchainedHashTable1, testKeyPair3);
 	DebugPrint(" TestSearch3Value :: %.2f ;\n\n\n", VOIDPTR_CAST(float, testSearch3->value));
 	
-	openHashTable testopenHashTable1 = initOpenHashTable(100);
-
+	openHashTable testopenHashTable1 = initOpenHashTable(100, 0.7);
+	
 	unsigned int openKeyName1 = 12;
 	float openKeyValue1 = 2131.23f;
 	keyPair testOpenKeyPair1 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName1, &openKeyValue1, 4, UnsignedIntEqual);
-	DebugPrint(" TestOpenInsert1 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair1->key));
+	keyPair testOpenSearch1 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair1->key, testOpenKeyPair1->keyLength);
 
 	unsigned int openKeyName2 = 12;
 	int openKeyValue2 = 541;
 	keyPair testOpenKeyPair2 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName2, &openKeyValue2, 4, UnsignedIntEqual);
-	DebugPrint(" TestOpenInsert2 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair2->key));
+	keyPair testOpenSearch2 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair2->key, testOpenKeyPair2->keyLength);
 
 	unsigned int openKeyName3 = 1231;
 	float openKeyValue3 = 4123521.23f;
 	keyPair testOpenKeyPair3 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName3, &openKeyValue3, 4, UnsignedIntEqual);
-	DebugPrint(" TestOpenInsert3 :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair3->key));
+	keyPair testOpenSearch3 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair3->key, testOpenKeyPair3->keyLength);
 
-	keyPair testOpenSearch1 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair1);
+	unsigned int openKeyName4 = 3232;
+	double openKeyValue4 = 54335453.342;
+	keyPair testOpenKeyPair4 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName4, &openKeyValue4, 4, UnsignedIntEqual);	
+	keyPair testOpenSearch4 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair4->key, testOpenKeyPair4->keyLength);
+
+	DebugPrint(" TestOpenInsert1 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair1->key));
+	DebugPrint(" TestOpenInsert2 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair2->key));
+	DebugPrint(" TestOpenInsert3 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair3->key));
+	DebugPrint(" TestOpenInsert4 :: %u ;\n\n", VOIDPTR_CAST(unsigned, testOpenKeyPair4->key));
+
 	DebugPrint(" TestOpenSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch1->value));
-	keyPair testOpenSearch2 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair2);
 	DebugPrint(" TestOpenSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch2->value));
-	keyPair testOpenSearch3 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair3);
 	DebugPrint(" TestOpenSearch3Value :: %.2f ;\n", VOIDPTR_CAST(float, testOpenSearch3->value));
+	DebugPrint(" TestOpenSearch4Value :: %.6f ;\n", VOIDPTR_CAST(double, testOpenSearch4->value));
 	/* End testing of hashtable functionality */
 	timerStop(&hashTableTimer);
 	timerPrintDelta(hashTableTimer);
