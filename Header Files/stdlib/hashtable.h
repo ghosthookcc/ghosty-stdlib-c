@@ -2,7 +2,9 @@
 #define HASHTABLE_H
 
 #include <sys/types.h>
+#include <string.h>
 
+#include "common.h"
 #include "hash.h"
 #include "linkedList.h"
 #include "boolean.h"
@@ -45,7 +47,8 @@ typedef struct addressedHashTable_t
 {
     openHashTableBucket* buckets;
     unsigned int entryCount;
-    unsigned int capacity;   
+    unsigned int capacity; 
+    double loadFactor;  
 } *openHashTable;
 
 chainedHashTable initChainedHashTable(unsigned int capacity);
@@ -57,14 +60,20 @@ chainedHashTableBucket initChainedHashTableBucket(unsigned int hash, void* data)
 
 void freeChainedHashTable(chainedHashTable* targetPtr);
 
-openHashTable initOpenHashTable(unsigned int capacity);
+openHashTable initOpenHashTable(unsigned int capacity, double loadFactor);
 
 keyPair insertIntoOpenHashTable(openHashTable* targetPtr, void* key, void* value, unsigned int keyLength, equalCallback equal);
-keyPair searchOpenHashTable(openHashTable targetPtr, keyPair searchForKeyPair);
+void insertAndRehashOpenHashTableEntry(openHashTableBucket* bucketsPtr, openHashTableBucket bucketToHash, unsigned int startIdx, unsigned int capacity);
+keyPair searchOpenHashTable(openHashTable targetPtr, void* key, unsigned int keyLength);
 
+void expandOpenHashTable(openHashTable* targetPtr);
+
+void freeOpenBuckets(openHashTableBucket* bucketsPtr, unsigned int capacity);
 void freeOpenHashTable(openHashTable* targetPtr);
 
 openHashTableBucket initOpenHashTableBucket(unsigned int hash, keyPair data);
+
+boolean shouldRehash(unsigned int currentLoadFactor, unsigned int maxLoadFactor);
 
 keyPair initKeyPair(void* key, void* value, unsigned int keyLength, equalCallback equal);
 
