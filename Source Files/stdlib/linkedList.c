@@ -1,14 +1,5 @@
 #include "../../Header Files/stdlib/linkedList.h"
 
-node initLinkedListNode(void* inData)
-{
-    node newNode = (node)malloc(sizeof(*newNode));
-    newNode->next = NULL;
-    newNode->previous = NULL;
-    newNode->value = inData;
-    return newNode;
-}
-
 linkedList initLinkedList()
 {
     linkedList newLinkedList = (linkedList)malloc(sizeof(*newLinkedList));
@@ -19,7 +10,7 @@ linkedList initLinkedList()
     return newLinkedList;
 }
 
-void insertIntoLinkedListBeginning(linkedList* targetPtr, node newNode)
+node insertIntoLinkedListBeginning(linkedList* targetPtr, node newNode)
 {
     linkedList dtarget = *targetPtr;
     newNode->next = dtarget->head;
@@ -31,6 +22,7 @@ void insertIntoLinkedListBeginning(linkedList* targetPtr, node newNode)
     dtarget->size += 1;
     dtarget->latestNode = newNode;
     findAndSetTailOfLinkedListUsingNode(targetPtr, dtarget->latestNode);
+    return dtarget->head;
 }
 
 void insertIntoLinkedListEnd(linkedList* targetPtr, node newNode)
@@ -60,4 +52,13 @@ void freeLinkedList(linkedList* targetPtr)
         free(currentNode);
     }
     free(dtarget);
+}
+
+node initLinkedListNode(void* inData)
+{
+    node newNode = (node)malloc(sizeof(*newNode));
+    newNode->next = NULL;
+    newNode->previous = NULL;
+    newNode->value = inData;
+    return newNode;
 }

@@ -10,6 +10,7 @@
 #include "linkedList.h"
 #include "math.h"
 #include "matrix.h"
+#include "memory.h"
 #include "quaternion.h"
 #include "queue.h"
 #include "stack.h"

@@ -17,7 +17,7 @@ double timerDelta(timer* timed)
 	return deltaInSeconds;
 }
 
-void timerPrintDelta(timer timed)
+void timerPrintDelta(timer timed, const char* header)
 {
-	printf("\nTimer delta is %.16f seconds . . .\n", timerDelta(&timed));
+	printf("\n%sTimer delta is %.16f seconds . . .\n", header, timerDelta(&timed));
 }

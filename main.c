@@ -66,11 +66,7 @@ int main(void)
 	}
 	/* End testing of matf functionality */
 	timerStop(&matrixTimer);
-	timerPrintDelta(matrixTimer);
-
-	unsigned int testKey = 11;
-	float testValue = 123.124f;
-	keyPair test = initKeyPair(&testKey, &testValue, 4, UnsignedIntEqual);
+	timerPrintDelta(matrixTimer, "MatrixTests: ");
 
 	timerStart(&stackTimer);
 	/* Start testing of stack functionality */
@@ -97,7 +93,7 @@ int main(void)
 	DebugPrint(" Top : %d ;\n", top);
 	/* End testing of stack functionality */
 	timerStop(&stackTimer);
-	timerPrintDelta(stackTimer);
+	timerPrintDelta(stackTimer, "StackTests: ");
 
 	timerStart(&queueTimer);
 	/* Start testing of queue functionality */
@@ -124,7 +120,7 @@ int main(void)
 	DebugPrint(" Next : %d ;\n", next);
 	/* End testing of queue functionality */
 	timerStop(&queueTimer);
-	timerPrintDelta(queueTimer);
+	timerPrintDelta(queueTimer, "QueueTests: ");
 
 	timerStart(&vectorTimer);
 	/* Start testing of vector functionality */
@@ -139,7 +135,7 @@ int main(void)
 	DebugPrint(" testVec4 : x{%.1f}, y{%.1f} ;\n", testVec4.x, testVec4.y);
 	/* End testing of vector functionality */
 	timerStop(&vectorTimer);
-	timerPrintDelta(vectorTimer);
+	timerPrintDelta(vectorTimer, "VectorTests: ");
 
 	timerStart(&linkedListTimer);
 	/* Start testing of linkedList functionality */
@@ -163,7 +159,7 @@ int main(void)
     DebugPrint(" New tail of linkedList :: %.3f ;\n", *(float*)testLinkedList->tail->value);
 	/* End testing of linkedList functionality */
 	timerStop(&linkedListTimer);
-	timerPrintDelta(linkedListTimer);
+	timerPrintDelta(linkedListTimer, "LinkedListTests: ");
 
 	timerStart(&hashTimer);
 	/* Start testing of hash functionality */
@@ -179,68 +175,21 @@ int main(void)
 	DebugPrint(" KEY2 {4323} HASHOUT :: %u | %x ;\n", outHash2, outHash2);
 	/* End testing of hash functionality */
 	timerStop(&hashTimer);
-	timerPrintDelta(hashTimer);
+	timerPrintDelta(hashTimer, "HashingTests: ");
 
 	timerStart(&hashTableTimer);
 	/* Start testing of hashtable functionality */
-	chainedHashTable testchainedHashTable1 = initChainedHashTable(100);
-
-	unsigned int keyName1 = 12;
-	float keyValue1 = 53.2f;
-	keyPair testKeyPair1 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName1, &keyValue1, 4, UnsignedIntEqual);
-	DebugPrint("\n TestInsert1ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair1->key));
-
-	unsigned int keyName2 = 12;
-	int keyValue2 = 4;
-	keyPair testKeyPair2 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName2, &keyValue2, 4, UnsignedIntEqual);
-	DebugPrint(" TestInsert2ValueKey :: %u ;\n", VOIDPTR_CAST(unsigned int, testKeyPair2->key));
-
-	unsigned int keyName3 = 1231;
-	float keyValue3 = 12312.223f;
-	keyPair testKeyPair3 = insertIntoChainedHashTable(&testchainedHashTable1, &keyName3, &keyValue3, 4, UnsignedIntEqual);
-	DebugPrint(" TestInsert3ValueKey :: %u ;\n\n", VOIDPTR_CAST(unsigned int, testKeyPair3->key));
-
-	keyPair testSearch1 = searchChainedHashTable(testchainedHashTable1, testKeyPair1);
-	DebugPrint(" TestSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testSearch1->value));
-	keyPair testSearch2 = searchChainedHashTable(testchainedHashTable1, testKeyPair2);
-	DebugPrint(" TestSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testSearch2->value));
-	keyPair testSearch3 = searchChainedHashTable(testchainedHashTable1, testKeyPair3);
-	DebugPrint(" TestSearch3Value :: %.2f ;\n\n\n", VOIDPTR_CAST(float, testSearch3->value));
+	openHashTable testOpenHashTable1 = initOpenHashTable(UnsignedIntEqual, 4, 8);
 	
-	openHashTable testopenHashTable1 = initOpenHashTable(100, 0.7);
-	
-	unsigned int openKeyName1 = 12;
-	float openKeyValue1 = 2131.23f;
-	keyPair testOpenKeyPair1 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName1, &openKeyValue1, 4, UnsignedIntEqual);
-	keyPair testOpenSearch1 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair1->key, testOpenKeyPair1->keyLength);
+	int testOpenKey1 = 44;
+	double testOpenValue1 = 2131.232;
+	insertIntoOpenHashTable(&testOpenHashTable1, 
+						    &testOpenKey1, &testOpenValue1);
 
-	unsigned int openKeyName2 = 12;
-	int openKeyValue2 = 541;
-	keyPair testOpenKeyPair2 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName2, &openKeyValue2, 4, UnsignedIntEqual);
-	keyPair testOpenSearch2 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair2->key, testOpenKeyPair2->keyLength);
-
-	unsigned int openKeyName3 = 1231;
-	float openKeyValue3 = 4123521.23f;
-	keyPair testOpenKeyPair3 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName3, &openKeyValue3, 4, UnsignedIntEqual);
-	keyPair testOpenSearch3 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair3->key, testOpenKeyPair3->keyLength);
-
-	unsigned int openKeyName4 = 3232;
-	double openKeyValue4 = 54335453.342;
-	keyPair testOpenKeyPair4 = insertIntoOpenHashTable(&testopenHashTable1, &openKeyName4, &openKeyValue4, 4, UnsignedIntEqual);	
-	keyPair testOpenSearch4 = searchOpenHashTable(testopenHashTable1, testOpenKeyPair4->key, testOpenKeyPair4->keyLength);
-
-	DebugPrint(" TestOpenInsert1 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair1->key));
-	DebugPrint(" TestOpenInsert2 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair2->key));
-	DebugPrint(" TestOpenInsert3 :: %u ;\n", VOIDPTR_CAST(unsigned int, testOpenKeyPair3->key));
-	DebugPrint(" TestOpenInsert4 :: %u ;\n\n", VOIDPTR_CAST(unsigned, testOpenKeyPair4->key));
-
-	DebugPrint(" TestOpenSearch1Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch1->value));
-	DebugPrint(" TestOpenSearch2Value :: %d ;\n", VOIDPTR_CAST(int, testOpenSearch2->value));
-	DebugPrint(" TestOpenSearch3Value :: %.2f ;\n", VOIDPTR_CAST(float, testOpenSearch3->value));
-	DebugPrint(" TestOpenSearch4Value :: %.6f ;\n", VOIDPTR_CAST(double, testOpenSearch4->value));
+	keyPair testOpenKVP1 = searchOpenHashTable(&testOpenHashTable1, &testOpenKey1);
 	/* End testing of hashtable functionality */
 	timerStop(&hashTableTimer);
-	timerPrintDelta(hashTableTimer);
+	timerPrintDelta(hashTableTimer, "HashTableTests: ");
 
 	timerStart(&arrayTimer);
 	/* Start testing of dArray functionality */
@@ -255,7 +204,7 @@ int main(void)
 	DebugPrint("\n Item at idx[0] :: %d ;\n", outputTest1);
 	/* End testing of dArray functionality */
 	timerStop(&arrayTimer);
-	timerPrintDelta(arrayTimer);
+	timerPrintDelta(arrayTimer, "DynamicArrayTests: ");
 
 	timerStart(&memoryFreeTimer);
 	/* Start testing of memory freeing functionality */
@@ -263,13 +212,12 @@ int main(void)
 	freeStack(&stackTest);
 	freeQueue(&queueTest);
 	freeLinkedList(&testLinkedList);
-	freeChainedHashTable(&testchainedHashTable1);
-	freeOpenHashTable(&testopenHashTable1);
+	//freeChainedHashTable(&testchainedHashTable1);
+	freeOpenHashTable(&testOpenHashTable1);
 	freeArray(&testArray1);
-	free(test);
 	/* End testing of memory freeing functionality */
 	timerStop(&memoryFreeTimer);
-	timerPrintDelta(memoryFreeTimer);
+	timerPrintDelta(memoryFreeTimer, "FreeMemoryTests: ");
 
 	double totalDeltaInSeconds = timerDelta(&matrixTimer) + timerDelta(&stackTimer) + timerDelta(&queueTimer) + timerDelta(&vectorTimer) + timerDelta(&linkedListTimer) + timerDelta(&hashTimer) + timerDelta(&arrayTimer) + timerDelta(&hashTableTimer) + timerDelta(&memoryFreeTimer);
 	printf("\ntotalDelta: %.16f seconds . . .\n", totalDeltaInSeconds);

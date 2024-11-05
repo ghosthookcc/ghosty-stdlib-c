@@ -19,6 +19,6 @@ void timerStart(timer* timed);
 void timerStop(timer* timed);
 
 double timerDelta(timer* timed);
-void timerPrintDelta(timer timed);
+void timerPrintDelta(timer timed, const char* header);
 
 #endif // TIMETEST_H

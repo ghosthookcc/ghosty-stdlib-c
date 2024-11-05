@@ -20,14 +20,14 @@ typedef struct linkedList_t
     node tail;
 } *linkedList;
 
-node initLinkedListNode(void* inData);
-
 linkedList initLinkedList();
-void insertIntoLinkedListBeginning(linkedList* targetPtr,  node inData);
+node insertIntoLinkedListBeginning(linkedList* targetPtr,  node inData);
 void insertIntoLinkedListEnd(linkedList* targetPtr, node inData);
 
 void findAndSetTailOfLinkedListUsingNode(linkedList* targetPtr, node startNode);
 
 void freeLinkedList(linkedList* targetPtr);
+
+node initLinkedListNode(void* inData);
 
 #endif // LINKEDLIST_H

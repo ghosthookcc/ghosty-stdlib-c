@@ -1,0 +1,67 @@
+keyPair insertIntoChainedHashTable(chainedHashTable* targetPtr, void* key, void* value, unsigned int keyLength, equalCallback equal)
+{
+    chainedHashTable dtarget = *targetPtr;
+ 
+    double currentLoadFactor = (double)((1.0 * dtarget->entryCount) / dtarget->capacity);
+    if (currentLoadFactor > dtarget->loadFactor)
+    {
+        expandChainedHashTable(targetPtr);
+    }
+
+    unsigned int hash = fnv1AHash(key, keyLength, 0);
+    unsigned int hashTableIdx = hash % dtarget->capacity;
+
+    keyPair keyPairToInsert = initKeyPair(key, value, keyLength, equal);
+
+    if (dtarget->chains[hashTableIdx] == NULL)
+    {
+        dtarget->chains[hashTableIdx] = initLinkedList();
+    }
+
+    linkedList entry = dtarget->chains[hashTableIdx];
+    node newEntryNode = NULL;
+    if (entry->head == NULL)
+    {
+        hashTableBucket newBucket = initHashTableBucket(hash, keyPairToInsert);
+        newBucket->_bucket.size = 1;
+        newEntryNode = initLinkedListNode(newBucket);
+    }
+    else if (entry->head != NULL)
+    {
+        node currentNode = entry->head;
+        hashTableBucket currentBucket = NULL;
+        while (currentNode != NULL)
+        {
+            currentNode = currentNode->next;
+
+            if (currentNode == NULL)
+            {
+                hashTableBucket newBucket = initHashTableBucket(hash, keyPairToInsert);
+                newEntryNode = initLinkedListNode(&newBucket);
+                currentNode = newEntryNode;
+                newBucket->_bucket.size += 1;
+                break;
+            }
+            else if (currentNode != NULL)
+            {
+                printf("\n\nHERE\n\n");
+                currentBucket = ((hashTableBucket)currentNode->value);
+            
+                if (currentBucket->_bucket.hash == hash && currentBucket->data->equal(currentBucket->data->key, key))
+                {
+                    currentBucket->data->value = keyPairToInsert->value;
+                    free(keyPairToInsert);
+                    return currentBucket->data;
+                }
+            }
+        }
+    }
+
+    if (newEntryNode != NULL)
+    {
+        insertIntoLinkedListBeginning(&entry, newEntryNode);
+        dtarget->entryCount += 1;
+        return keyPairToInsert;
+    }
+    return NULL;
+}

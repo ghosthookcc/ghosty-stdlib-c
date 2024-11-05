@@ -7,9 +7,9 @@
 /* Start string declaration */
 typedef struct string
 {
-	char* chars;
 	unsigned int realSize;
 	unsigned int capacity;
+	char* chars;
 } string;
 
 string* initString(unsigned int initCapacity);
@@ -26,9 +26,9 @@ void freeString(string** target);
 /* Start stringArray declaration */
 typedef struct stringArray
 {
-	string** items;
 	unsigned int realSize;
 	unsigned int capacity;
+	string** items;
 } stringArray;
 
 stringArray* initStringArray(unsigned int initCapacity);
@@ -39,9 +39,7 @@ void freeStringArray(stringArray** target);
 /* End stringArray declaration */
 
 unsigned int getStringLen(char* chars);
-
 unsigned char stringEndsWith(char* string, char checkForChar);
-
 int compareStrings(const char* str1, const char* str2);
 
 #endif // STRING_H
