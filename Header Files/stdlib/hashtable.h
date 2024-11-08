@@ -1,5 +1,5 @@
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+#ifndef hashTable_H
+#define hashTable_H
 
 #include <sys/types.h>
 #include <string.h>
@@ -23,7 +23,7 @@ typedef struct keyPair_t
     void* value;
 } *keyPair;
 
-typedef struct addressedHashTable_t
+typedef struct hashTable_t
 {
     unsigned int capacity;
     unsigned int entryCount;
@@ -37,17 +37,17 @@ typedef struct addressedHashTable_t
 
     arena keys;
     arena values;
-} *HashTable;
+} *hashTable;
 
-HashTable initHashTable(equalCallback equal, 
+hashTable initHashTable(equalCallback equal, 
                                 size_t keySize, size_t valueSize,
                                 size_t sizeInMb, size_t alignment);
 
-void* insertIntoHashTable(HashTable targetPtr, 
+void* insertIntoHashTable(hashTable targetPtr, 
                               void* key, void* value);
-keyPair searchHashTable(HashTable targetPtr, void* key);
+keyPair searchHashTable(hashTable targetPtr, void* key);
 
-void freeHashTable(HashTable targetPtr);
+void freeHashTable(hashTable targetPtr);
 
 keyPair initKeyPair(void* key, void* value,
                     size_t keySize, size_t valueSize);
@@ -56,4 +56,4 @@ void freeKeyPair(keyPair targetPtr);
 
 boolean unsignedIntEqual(void* data, void* otherData);
 
-#endif // HASHTABLE_H
+#endif // hashTable_H

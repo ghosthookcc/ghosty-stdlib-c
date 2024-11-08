@@ -1,17 +1,17 @@
-#include "../../Header Files/stdlib/hashtable.h"
+#include "../../Header Files/stdlib/hashTable.h"
 
-HashTable initHashTable(equalCallback equal, 
+hashTable initHashTable(equalCallback equal, 
                                 size_t keySize, size_t valueSize,
                                 size_t sizeInMb, size_t alignment)
 {
-    HashTable newHashTable = malloc(sizeof(*newHashTable));
+    hashTable newHashTable = malloc(sizeof(*newHashTable));
 
     newHashTable->hashSize = sizeof(unsigned int);
     newHashTable->keySize = keySize;
     newHashTable->valueSize = valueSize;
     newHashTable->keyEntrySize = newHashTable->keySize + newHashTable->hashSize;
 
-    size_t hashtableKeyPairInitSize = sizeInMb * BYTESINMB;
+    size_t hashTableKeyPairInitSize = sizeInMb * BYTESINMB;
 
     unsigned int keyArenaCapacity = 0;
     unsigned int valueArenaCapacity = 0;
@@ -27,7 +27,7 @@ HashTable initHashTable(equalCallback equal,
         keyArenaSize += newHashTable->keyEntrySize;
         totalSize += newHashTable->keyEntrySize;
 
-        if (totalSize + valueSize > hashtableKeyPairInitSize) break;
+        if (totalSize + valueSize > hashTableKeyPairInitSize) break;
 
         valueArenaCapacity += 1;
         valueArenaSize += newHashTable->valueSize;
@@ -43,7 +43,7 @@ HashTable initHashTable(equalCallback equal,
         valueArenaSize += 1;
     }
 
-    hashtableKeyPairInitSize = totalSize;
+    hashTableKeyPairInitSize = totalSize;
 
     newHashTable->capacity = keyArenaCapacity; //- 1;
     newHashTable->entryCount = 0;
@@ -56,7 +56,7 @@ HashTable initHashTable(equalCallback equal,
     return newHashTable;
 }
 
-void* insertIntoHashTable(HashTable targetPtr, 
+void* insertIntoHashTable(hashTable targetPtr, 
                               void* key, void* value)
 {
     if (targetPtr->entryCount == targetPtr->capacity) return NULL;
@@ -132,7 +132,7 @@ void* insertIntoHashTable(HashTable targetPtr,
     return NULL;
 }
 
-keyPair searchHashTable(HashTable targetPtr, void* key)
+keyPair searchHashTable(hashTable targetPtr, void* key)
 {
     unsigned int hash = fnv1AHash(key, targetPtr->hashSize, 0);
     unsigned int hashTableIdx = hash % targetPtr->capacity;
@@ -182,7 +182,7 @@ keyPair searchHashTable(HashTable targetPtr, void* key)
     return NULL;
 }
 
-void freeHashTable(HashTable targetPtr)
+void freeHashTable(hashTable targetPtr)
 {
     freeArena(targetPtr->keys);
     freeArena(targetPtr->values);
