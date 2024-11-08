@@ -79,6 +79,7 @@ void* insertIntoHashTable(HashTable targetPtr,
         if (foundHash == ARENAENTRYTAKEN) 
         {
             foundOpenSlot = true;
+            free(foundKey);
             break;
         }
         
@@ -86,6 +87,7 @@ void* insertIntoHashTable(HashTable targetPtr,
         if (foundHash == hash && targetPtr->equal(foundKey, key))
         {
             memcpy((unsigned char*)targetPtr->values->storage+(hashTableIdx * targetPtr->valueSize), value, 0);
+            free(foundKey);
             return key;
         }
         hashTableIdx++;
@@ -101,12 +103,14 @@ void* insertIntoHashTable(HashTable targetPtr,
             if (foundHash == ARENAENTRYTAKEN) 
             {
                 foundOpenSlot = true;
+                free(foundKey);
                 break;
             }
 
             memcpy(foundKey, dataPtr+targetPtr->hashSize, targetPtr->keySize);
             if (foundHash == hash && targetPtr->equal(foundKey, key))
             {
+                free(foundKey);
                 return key;
             }
             hashTableIdx++;
@@ -121,8 +125,10 @@ void* insertIntoHashTable(HashTable targetPtr,
         insertIntoArena(targetPtr->values, value, targetPtr->valueSize, 0, hashTableIdx);
 
         targetPtr->entryCount += 1;
+
         return key;
     }
+    free(foundKey);
     return NULL;
 }
 
@@ -147,8 +153,10 @@ keyPair searchHashTable(HashTable targetPtr, void* key)
             if (foundHash == hash && targetPtr->equal(foundKey, key))
             {
                 unsigned char* value = (unsigned char*)targetPtr->values->storage+(targetPtr->valueSize * hashTableIdx); 
-                return initKeyPair(foundKey, value,
-                                   targetPtr->keySize, targetPtr->valueSize);
+                keyPair kvp = initKeyPair(foundKey, value,
+                                          targetPtr->keySize, targetPtr->valueSize);
+                free(foundKey);
+                return kvp;
             }
         }
         hashTableIdx++;
@@ -164,8 +172,10 @@ keyPair searchHashTable(HashTable targetPtr, void* key)
             if (foundHash == hash && targetPtr->equal(foundKey, key))
             {
                 unsigned char* value = (unsigned char*)targetPtr->values->storage+(targetPtr->valueSize * hashTableIdx);
-                return initKeyPair(foundKey, value,
-                                   targetPtr->keySize, targetPtr->valueSize);
+                keyPair kvp = initKeyPair(foundKey, value,
+                                          targetPtr->keySize, targetPtr->valueSize);
+                free(foundKey);
+                return kvp;
             }
         }
     } 
