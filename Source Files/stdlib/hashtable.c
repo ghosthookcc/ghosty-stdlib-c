@@ -70,7 +70,7 @@ void* insertIntoHashTable(HashTable targetPtr,
     unsigned char* dataPtr = NULL;
 
     unsigned int foundHash = ARENAENTRYTAKEN;
-    unsigned char foundKey[targetPtr->keySize];
+    unsigned char* foundKey = malloc(sizeof(char) * targetPtr->keySize);
     while (hashTableIdx < targetPtr->capacity)
     {
         dataPtr = (unsigned char*)targetPtr->keys->storage+(hashTableIdx * targetPtr->keyEntrySize);
@@ -135,7 +135,7 @@ keyPair searchHashTable(HashTable targetPtr, void* key)
     unsigned char* dataPtr = NULL;
 
     unsigned int foundHash = ARENAENTRYTAKEN;
-    unsigned char foundKey[targetPtr->keySize];
+    unsigned char* foundKey = malloc(sizeof(char) * targetPtr->keySize);
     while (hashTableIdx < targetPtr->capacity)
     {
         dataPtr = (unsigned char*)targetPtr->keys->storage+(targetPtr->hashSize * hashTableIdx);
