@@ -1,55 +1,55 @@
 #include "../../Header Files/stdlib/file.h"
 
-FILE* openFile(char* filePath, const char* fileMode, long int offset)
+FILE* openFile(string filePath, const char* fileMode, long int offset)
 {
-	FILE* filePtr = fopen(filePath, fileMode);
-	fseek(filePtr, offset, SEEK_SET);
-	return(filePtr);
+	FILE* fileHandle = fopen(filePath->chars, fileMode);
+	fseek(fileHandle, offset, SEEK_SET);
+	return(fileHandle);
 }
 
-char readNext(FILE* file)
+char readNext(FILE* fileHandle)
 {
-	char next = fgetc(file);
+	char next = fgetc(fileHandle);
 	return(next);
 }
 
-char* readNextChars(FILE* file, int amount)
+char* readNextBy(FILE* fileHandle, int amount)
 {
 	char* content = (char*)malloc( ( sizeof(char) * amount ) + 1);
 
 	int nextCharIdx = -1;
-	while (!feof(file) && nextCharIdx < amount)
+	while (!feof(fileHandle) && nextCharIdx < amount)
 	{
 		nextCharIdx++; 
-		content[nextCharIdx] = readNext(file);
+		content[nextCharIdx] = readNext(fileHandle);
 	}
 	content[nextCharIdx] = '\0';
 
 	return(content);
 } 
 
-char* readAll(FILE* file)
+char* readAll(FILE* fileHandle)
 {
-	long int savedFileOffset = ftell(file);
-	rewind(file);
+	long int savedFileOffset = ftell(fileHandle);
+	rewind(fileHandle);
 	
-	char* content = readRemaining(file);
-	fseek(file, savedFileOffset, SEEK_SET);
+	char* content = readRemaining(fileHandle);
+	fseek(fileHandle, savedFileOffset, SEEK_SET);
 
 	return(content);
 }
 
-char* readRemaining(FILE* file)
+char* readRemaining(FILE* fileHandle)
 {
-	long int contentLength = tellRemaining(file);
+	long int contentLength = tellRemaining(fileHandle);
 	char* content = (char*)malloc( ( sizeof(char) * contentLength ) + 1);
 
 	char nextSymbol;
 	int nextSymbolIdx = -1;
-	while (!feof(file))
+	while (!feof(fileHandle))
 	{
 		nextSymbolIdx++;
-		nextSymbol = readNext(file);
+		nextSymbol = readNext(fileHandle);
 		content[nextSymbolIdx] = nextSymbol;
 	}
 	content[nextSymbolIdx] = '\0';
@@ -57,17 +57,17 @@ char* readRemaining(FILE* file)
 	return(content);
 }
 
-long int tellRemaining(FILE* file)
+long int tellRemaining(FILE* fileHandle)
 {	
-	long int remainingLength = tellSize(file) - ftell(file);
+	long int remainingLength = tellSize(fileHandle) - ftell(fileHandle);
 	return(remainingLength);
 }
 
-long int tellSize(FILE* file)
+long int tellSize(FILE* fileHandle)
 {
-	long int savedFileOffset = ftell(file);
-	fseek(file, 0L, SEEK_END);
-	long int size = ftell(file);
-	fseek(file, savedFileOffset, SEEK_SET);
+	long int savedFileOffset = ftell(fileHandle);
+	fseek(fileHandle, 0L, SEEK_END);
+	long int size = ftell(fileHandle);
+	fseek(fileHandle, savedFileOffset, SEEK_SET);
 	return(size);
 }

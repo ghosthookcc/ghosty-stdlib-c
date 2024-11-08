@@ -4,14 +4,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-FILE* openFile(char* filePath, const char* fileMode, long int offset);
+#include "string.h"
 
-char readNext(FILE* file);
-char* readNextChars(FILE* file, int amount);
-char* readAll(FILE* file);
-char* readRemaining(FILE* file);
+FILE* openFile(string filePath, const char* fileMode, long int offset);
 
-long int tellRemaining(FILE* file);
-long int tellSize(FILE* file);
+char readNext(FILE* fileHandle);
+char* readNextChars(FILE* fileHandle, int amount);
+char* readAll(FILE* fileHandle);
+char* readRemaining(FILE* fileHandle);
+
+long int tellRemaining(FILE* fileHandle);
+long int tellSize(FILE* fileHandle);
 
 #endif // FILE_H
