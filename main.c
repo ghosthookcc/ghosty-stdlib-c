@@ -178,18 +178,18 @@ int main(void)
 	timerPrintDelta(hashTimer, "HashingTests: ");
 
 	timerStart(&hashTableTimer);
-	/* Start testing of hashtable functionality */
-	HashTable testHashTable1 = initHashTable(UnsignedIntEqual, 4, 8, 1, 1024);
+	/* Start testing of hashTable functionality */
+	hashTable testHashTable1 = initHashTable(UnsignedIntEqual, 4, 8, 1, 1024);
 
 	int testHashTableKey1 = 2;
 	double testHashTableValue1 = 2312.22;
 	insertIntoHashTable(testHashTable1, 
-						    &testHashTableKey1, &testHashTableValue1);
+						&testHashTableKey1, &testHashTableValue1);
 
 	int testHashTableKey2 = 2;
 	double testHashTableValue2 = 231231.2;
 	insertIntoHashTable(testHashTable1,
-							&testHashTableKey2, &testHashTableValue2);
+						&testHashTableKey2, &testHashTableValue2);
 
 	keyPair testHashTableKeyPair1 = searchHashTable(testHashTable1, &testHashTableKey1);
 
@@ -202,12 +202,12 @@ int main(void)
 		double someTestValue1 = 1.0 * someTestKey1;
 
 		insertIntoHashTable(testHashTable1,
-								&someTestKey1, &someTestValue1);
+							&someTestKey1, &someTestValue1);
 		idx += 1;
 	}
-	/* End testing of hashtable functionality */
+	/* End testing of hashTable functionality */
 	timerStop(&hashTableTimer);
-	timerPrintDelta(hashTableTimer, "HashTableTests: ");
+	timerPrintDelta(hashTableTimer, "hashTableTests: ");
 
 	timerStart(&arrayTimer);
 	/* Start testing of dArray functionality */
@@ -230,7 +230,7 @@ int main(void)
 	freeStack(&stackTest);
 	freeQueue(&queueTest);
 	freeLinkedList(&testLinkedList);
-	//freeChainedHashTable(&testchainedHashTable1);
+	//freeChainedhashTable(&testchainedhashTable1);
 	freeHashTable(testHashTable1);
 	freeKeyPair(testHashTableKeyPair1);
 	freeArray(&testArray1);
