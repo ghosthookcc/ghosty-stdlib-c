@@ -6,7 +6,7 @@ arena initArena(size_t storageSizeInBytes, size_t alignment)
 	newArena->storageSizeInBytes = storageSizeInBytes;
 	newArena->realStorageSizeInBytes = 0;
 
-	newArena->storage = aligned_alloc(alignment, storageSizeInBytes);
+	newArena->storage = _aligned_malloc(storageSizeInBytes, alignment);
 
     if (newArena->storage == NULL || ((uintptr_t)newArena->storage % alignment) != 0) 
     {
