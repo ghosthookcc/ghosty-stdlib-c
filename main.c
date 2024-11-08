@@ -163,8 +163,8 @@ int main(void)
 
 	timerStart(&hashTimer);
 	/* Start testing of hash functionality */
-	unsigned int UINT_MAX = 4294967290;
-	DebugPrint("\n UINT_MAX_BYTE0 :: %d ;\n", UINT_MAX % 255);
+	unsigned int max = 4294967290;
+	DebugPrint("\n UINT_MAX_BYTE0 :: %d ;\n", max % 255);
 
 	unsigned int key = 2222;
 	unsigned int outHash = murmur32Hash(&key, sizeof(key), 0);
