@@ -11,7 +11,7 @@
 #include "dArray.h"
 #include "memory.h"
 
-#define BYTESINMB 1000000.0
+#define BYTESINMB 1000000
 
 #define unsignedIntEqual UnsignedIntEqual
 
@@ -23,7 +23,6 @@ typedef struct keyPair_t
     void* value;
 } *keyPair;
 
-// Speed under low load factor
 typedef struct addressedHashTable_t
 {
     unsigned int capacity;
@@ -32,30 +31,28 @@ typedef struct addressedHashTable_t
     size_t keySize;
     size_t valueSize; 
     size_t hashSize;
+    size_t keyEntrySize;
 
     equalCallback equal;
 
     arena keys;
     arena values;
-} *openHashTable;
+} *HashTable;
 
-typedef struct entryKey_t
-{
-    unsigned int hash;
-    void* key;
-} entryKey;
-
-openHashTable initOpenHashTable(equalCallback equal, 
+HashTable initHashTable(equalCallback equal, 
                                 size_t keySize, size_t valueSize,
                                 size_t sizeInMb, size_t alignment);
 
-void* insertIntoOpenHashTable(openHashTable targetPtr, 
+void* insertIntoHashTable(HashTable targetPtr, 
                               void* key, void* value);
-keyPair searchOpenHashTable(openHashTable targetPtr, void* key);
+keyPair searchHashTable(HashTable targetPtr, void* key);
 
-void freeOpenHashTable(openHashTable targetPtr);
+void freeHashTable(HashTable targetPtr);
 
-keyPair initKeyPair(void* key, void* value);
+keyPair initKeyPair(void* key, void* value,
+                    size_t keySize, size_t valueSize);
+
+void freeKeyPair(keyPair targetPtr);
 
 boolean unsignedIntEqual(void* data, void* otherData);
 

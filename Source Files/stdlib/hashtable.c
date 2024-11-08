@@ -1,14 +1,15 @@
 #include "../../Header Files/stdlib/hashtable.h"
 
-openHashTable initOpenHashTable(equalCallback equal, 
+HashTable initHashTable(equalCallback equal, 
                                 size_t keySize, size_t valueSize,
                                 size_t sizeInMb, size_t alignment)
 {
-    openHashTable newHashTable = malloc(sizeof(*newHashTable));
+    HashTable newHashTable = malloc(sizeof(*newHashTable));
 
     newHashTable->hashSize = sizeof(unsigned int);
-    newHashTable->keySize = keySize + newHashTable->hashSize;
+    newHashTable->keySize = keySize;
     newHashTable->valueSize = valueSize;
+    newHashTable->keyEntrySize = newHashTable->keySize + newHashTable->hashSize;
 
     size_t hashtableKeyPairInitSize = sizeInMb * BYTESINMB;
 
@@ -23,8 +24,8 @@ openHashTable initOpenHashTable(equalCallback equal,
     while (true)
     {
         keyArenaCapacity += 1;
-        keyArenaSize += newHashTable->keySize;
-        totalSize += newHashTable->keySize;
+        keyArenaSize += newHashTable->keyEntrySize;
+        totalSize += newHashTable->keyEntrySize;
 
         if (totalSize + valueSize > hashtableKeyPairInitSize) break;
 
@@ -55,7 +56,7 @@ openHashTable initOpenHashTable(equalCallback equal,
     return newHashTable;
 }
 
-void* insertIntoOpenHashTable(openHashTable targetPtr, 
+void* insertIntoHashTable(HashTable targetPtr, 
                               void* key, void* value)
 {
     if (targetPtr->entryCount == targetPtr->capacity) return NULL;
@@ -64,32 +65,27 @@ void* insertIntoOpenHashTable(openHashTable targetPtr,
 
     unsigned int hash = fnv1AHash(key, targetPtr->hashSize, 0);
     unsigned int hashTableIdx = hash % targetPtr->capacity;
-
     unsigned int originalIdx = hashTableIdx;
 
-    entryKey currentEntry;
-    currentEntry.key = malloc(targetPtr->keySize); 
+    unsigned char* dataPtr = NULL;
 
-    unsigned char* allData = malloc(sizeof(entryKey) + targetPtr->keySize);
-    unsigned char* tempAllData = NULL;
-
+    unsigned int foundHash = ARENAENTRYTAKEN;
+    unsigned char foundKey[targetPtr->keySize];
     while (hashTableIdx < targetPtr->capacity)
     {
-        tempAllData = allData;
+        dataPtr = (unsigned char*)targetPtr->keys->storage+(hashTableIdx * targetPtr->keyEntrySize);
 
-        getArenaAtIndex(targetPtr->keys, tempAllData, hashTableIdx, targetPtr->keySize);
-
-        memcpy(&currentEntry.hash, allData, targetPtr->hashSize);
-        tempAllData += targetPtr->hashSize;
-        memcpy(currentEntry.key, allData, targetPtr->keySize - targetPtr->hashSize);
-
-        if (currentEntry.hash == ARENAENTRYTAKEN) 
+        memcpy(&foundHash, dataPtr, targetPtr->hashSize);
+        if (foundHash == ARENAENTRYTAKEN) 
         {
             foundOpenSlot = true;
             break;
         }
-        if (currentEntry.hash == hash && targetPtr->equal(currentEntry.key, key))
+        
+        memcpy(foundKey, dataPtr+targetPtr->hashSize, targetPtr->keySize);
+        if (foundHash == hash && targetPtr->equal(foundKey, key))
         {
+            memcpy((unsigned char*)targetPtr->values->storage+(hashTableIdx * targetPtr->valueSize), value, 0);
             return key;
         }
         hashTableIdx++;
@@ -99,20 +95,17 @@ void* insertIntoOpenHashTable(openHashTable targetPtr,
         hashTableIdx = 0;
         while (hashTableIdx < originalIdx)
         {
-            tempAllData = allData;
+            dataPtr = (unsigned char*)targetPtr->keys->storage+(hashTableIdx * targetPtr->keyEntrySize);
 
-            getArenaAtIndex(targetPtr->keys, tempAllData, hashTableIdx, targetPtr->keySize);
-
-            memcpy(&currentEntry.hash, allData, targetPtr->hashSize);
-            tempAllData += targetPtr->hashSize;
-            memcpy(currentEntry.key, allData, targetPtr->keySize - targetPtr->hashSize);
-
-            if (currentEntry.hash == ARENAENTRYTAKEN) 
+            memcpy(&foundHash, dataPtr, targetPtr->hashSize);
+            if (foundHash == ARENAENTRYTAKEN) 
             {
                 foundOpenSlot = true;
                 break;
             }
-            if (currentEntry.hash == hash && targetPtr->equal(currentEntry.key, key))
+
+            memcpy(foundKey, dataPtr+targetPtr->hashSize, targetPtr->keySize);
+            if (foundHash == hash && targetPtr->equal(foundKey, key))
             {
                 return key;
             }
@@ -122,70 +115,89 @@ void* insertIntoOpenHashTable(openHashTable targetPtr,
 
     if (foundOpenSlot)
     {
-        currentEntry.hash = hash;
-        currentEntry.key = key;
+        insertIntoArena(targetPtr->keys, &hash, targetPtr->hashSize, 0, hashTableIdx);
+        insertIntoArena(targetPtr->keys, key, targetPtr->keySize, targetPtr->hashSize, hashTableIdx);
 
-        insertIntoArena(targetPtr->keys, &currentEntry, targetPtr->keySize, hashTableIdx);
-        insertIntoArena(targetPtr->values, value, targetPtr->valueSize, hashTableIdx);
+        insertIntoArena(targetPtr->values, value, targetPtr->valueSize, 0, hashTableIdx);
 
         targetPtr->entryCount += 1;
-
         return key;
     }
     return NULL;
 }
 
-keyPair searchOpenHashTable(openHashTable targetPtr, void* key)
+keyPair searchHashTable(HashTable targetPtr, void* key)
 {
     unsigned int hash = fnv1AHash(key, targetPtr->hashSize, 0);
     unsigned int hashTableIdx = hash % targetPtr->capacity;
+    unsigned int originalIdx = hashTableIdx;
 
-    boolean isEqualHash;
-    boolean isEqualKey;
+    unsigned char* dataPtr = NULL;
 
-    entryKey currentEntry;
-    currentEntry.key = malloc(targetPtr->keySize);
-
-    unsigned char* allData = malloc(sizeof(entryKey) + targetPtr->keySize);
+    unsigned int foundHash = ARENAENTRYTAKEN;
+    unsigned char foundKey[targetPtr->keySize];
     while (hashTableIdx < targetPtr->capacity)
     {
-        getArenaAtIndex(targetPtr->keys, allData, hashTableIdx, targetPtr->keySize);
+        dataPtr = (unsigned char*)targetPtr->keys->storage+(targetPtr->hashSize * hashTableIdx);
 
-        memcpy(&currentEntry.hash, allData, targetPtr->hashSize);
-        allData += targetPtr->hashSize; 
-        memcpy(&currentEntry.key, allData, targetPtr->keySize - targetPtr->hashSize);
-        
-        if (currentEntry.hash != ARENAENTRYTAKEN)
+        memcpy(&foundHash, dataPtr, targetPtr->hashSize);    
+        if (foundHash != ARENAENTRYTAKEN)
         {
-            isEqualHash = currentEntry.hash == hash;
-            isEqualKey = targetPtr->equal(currentEntry.key, key);
-        
-            if (isEqualHash && isEqualKey)
+            memcpy(foundKey, dataPtr+targetPtr->hashSize, targetPtr->keySize);
+            if (foundHash == hash && targetPtr->equal(foundKey, key))
             {
-                unsigned char* value = malloc(targetPtr->valueSize);
-                getArenaAtIndex(targetPtr->values, value, hashTableIdx, targetPtr->valueSize);
-                return initKeyPair(currentEntry.key, value); 
+                unsigned char* value = (unsigned char*)targetPtr->values->storage+(targetPtr->valueSize * hashTableIdx); 
+                return initKeyPair(foundKey, value,
+                                   targetPtr->keySize, targetPtr->valueSize);
             }
         }
         hashTableIdx++;
-        allData -= targetPtr->hashSize;
     }
+    while (hashTableIdx < originalIdx)
+    {
+        dataPtr = (unsigned char*)targetPtr->keys->storage+(targetPtr->hashSize * hashTableIdx);
+
+        memcpy(&foundHash, dataPtr, targetPtr->hashSize);
+        if (foundHash != ARENAENTRYTAKEN)
+        {
+            memcpy(foundKey, dataPtr+targetPtr->hashSize, targetPtr->keySize);
+            if (foundHash == hash && targetPtr->equal(foundKey, key))
+            {
+                unsigned char* value = (unsigned char*)targetPtr->values->storage+(targetPtr->valueSize * hashTableIdx);
+                return initKeyPair(foundKey, value,
+                                   targetPtr->keySize, targetPtr->valueSize);
+            }
+        }
+    } 
     return NULL;
 }
 
-void freeOpenHashTable(openHashTable targetPtr)
+void freeHashTable(HashTable targetPtr)
 {
     freeArena(targetPtr->keys);
+    freeArena(targetPtr->values);
+    free(targetPtr);
 }
 
-keyPair initKeyPair(void* key, void* value)
+keyPair initKeyPair(void* key, void* value, 
+                    size_t keySize, size_t valueSize)
 {
-    keyPair newKeyPair = malloc(sizeof(*newKeyPair));
+    keyPair newKeyPair = malloc(sizeof(*newKeyPair) + keySize + valueSize);
 
-    newKeyPair->key = key;
-    newKeyPair->value = value;
+    newKeyPair->key   = malloc(keySize);
+    newKeyPair->value = malloc(valueSize);
+
+    memcpy(newKeyPair->key, key, keySize);
+    memcpy(newKeyPair->value, value, valueSize);
 
     return newKeyPair;
+}
+
+void freeKeyPair(keyPair targetPtr)
+{
+    free(targetPtr->key);
+    free(targetPtr->value);
+    free(targetPtr);
 }
 
 boolean unsignedIntEqual(void* data, void* otherData)
