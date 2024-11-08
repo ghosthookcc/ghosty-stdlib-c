@@ -1,22 +1,23 @@
 #include "../../Header Files/stdlib/string.h"
 
 /* Start string definition */
-string* initString(unsigned int initCapacity)
+string initString()
 {
-	string* new = malloc(sizeof(*new) + (sizeof(char) * initCapacity));
+	string newString = malloc(sizeof(*newString) + (sizeof(char) * DEFAULT_STRING_CAPACITY + 1));
 	
-	new->chars = malloc((sizeof(char) * initCapacity) + 1);
-	new->realSize = 0;
-	new->capacity = initCapacity;
+	newString->chars = malloc((sizeof(char) * DEFAULT_STRING_CAPACITY) + 1);
+	newString->realSize = 0;
+	newString->capacity = DEFAULT_STRING_CAPACITY;
 
-	new->chars[new->realSize] = '\0';
+    gsmemset(newString->chars, DEFAULT_STRING_CAPACITY, '\0');
+	newString->chars[DEFAULT_STRING_CAPACITY] = '\0';
 
-	return(new);
+	return(newString);
 }		
 
-void pushChar(string** target, char item)
+void pushChar(string* target, char item)
 {
-	string* targetDerefed = *target;
+    string targetDerefed = *target;
 	if ( targetDerefed->realSize == targetDerefed->capacity )
 	{
 		// Grow target array by 2k+1
@@ -28,11 +29,11 @@ void pushChar(string** target, char item)
 	targetDerefed->chars[targetDerefed->realSize] = '\0';
 }
 
-void pushChars(string** target, char* item)
+void pushChars(string* target, char* item)
 {
-	string* targetDerefed = *target;
-	unsigned int itemCharsLen = sizeof(char) * getStringLen(item);
-	if ( targetDerefed->realSize + itemCharsLen > targetDerefed->capacity )
+	unsigned int itemCharsLen = sizeof(char) * charsLength(item);
+	string targetDerefed = *target;
+    if ( targetDerefed->realSize + itemCharsLen > targetDerefed->capacity )
 	{
 		// Grow target array by ((n + strLen) + 2k)+1
 		targetDerefed->capacity = (targetDerefed->realSize + itemCharsLen) + (targetDerefed->capacity * 2) + 1;
@@ -46,39 +47,55 @@ void pushChars(string** target, char* item)
 	targetDerefed->chars[targetDerefed->realSize] = '\0';
 }
 
-void printString(string** target)
+void copyChars(string* target, const unsigned char* source, size_t length)
+{
+    size_t skipAmountChars = 0;
+    while (*source == '\0' && skipAmountChars < length)
+    { 
+        skipAmountChars += 1;
+        *source++;
+    }
+
+    length -= skipAmountChars;
+
+    char* tmpData = malloc((sizeof(char) * length) + 1); 
+    memcpy(tmpData, source, length);
+    tmpData[length] = '\0'; 
+
+    pushChars(target, tmpData);
+    free(tmpData);
+}
+
+void printString(string target)
 {
 	printf("\n");
-	string* targetDerefed = *target;
-	printf("%s ", targetDerefed->chars);
+	printf("%s ", target->chars);
 	printf("\n");
 }
 
-void freeString(string** target)
+void freeString(string* target)
 {
-	string* targetDerefed = *target;
+    string targetDerefed = *target;
 	free(targetDerefed->chars);
-	targetDerefed->chars = NULL;
-	targetDerefed->realSize = targetDerefed->capacity = 0;
 	free(targetDerefed);
 }
 /* End string definition */
 
 /* Start stringArray definition */
-stringArray* initStringArray(unsigned int initCapacity)
+stringArray initStringArray()
 {
-	stringArray* new = malloc(sizeof(*new) + (sizeof(string) * initCapacity));
+	stringArray newStringArray = malloc(sizeof(*newStringArray));
 
-	new->items = malloc(sizeof(new->items) * initCapacity);
-	new->realSize = 0;
-	new->capacity = initCapacity;
+    newStringArray->items = malloc(sizeof(newStringArray->items) * DEFAULT_STRING_ARRAY_CAPACITY);
+	newStringArray->realSize = 0;
+	newStringArray->capacity = DEFAULT_STRING_ARRAY_CAPACITY;
 
-	return(new);
+	return(newStringArray);
 }
 
-void pushString(stringArray** target, string* item)
+void pushString(stringArray* target, string item)
 {
-	stringArray* targetDerefed = *target;
+	stringArray targetDerefed = *target;
 	if ( targetDerefed->realSize == targetDerefed->capacity )
 	{
 		// Grow target array by 2k+1
@@ -89,63 +106,111 @@ void pushString(stringArray** target, string* item)
 	targetDerefed->realSize++;
 }
 
-void printStringArray(stringArray** target)
+void printStringArray(stringArray* target)
 {
 	printf("\n");
-	stringArray* targetDerefed = *target;
+	stringArray targetDerefed = *target;
 	for (unsigned int idx = 0; idx < targetDerefed->realSize; idx++)
 	{
-		printString(&targetDerefed->items[idx]);
+		printString(targetDerefed->items[idx]);
 	}
 	printf("\n");
 }
 
-void freeStringArray(stringArray** target)
+void freeStringArray(stringArray* target)
 {
-	stringArray* targetDerefed = *target;
+	stringArray targetDerefed = *target;
 	for (unsigned int idx = 0; idx < targetDerefed->realSize; idx++)
 	{
 		freeString(&targetDerefed->items[idx]);
 	}
 	free(targetDerefed->items);
-	targetDerefed->items = NULL;
-	targetDerefed->realSize = targetDerefed->capacity = 0;
 	free(targetDerefed);
 }
 /* End stringArray definition */
 
-unsigned int getStringLen(char* string)
+unsigned int charsLength(const char* chars)
 {
-	char* offset = string;
+    const char* offset = chars;
 	unsigned int len = 0;
 	while (*offset != '\0')
 	{
 		offset++;
 		len++;
 	}
-	return(len);
+	return(len);    
 }
 
-unsigned char stringEndsWith(char* string, char checkForChar)
+unsigned int stringLength(string stringToFindLength)
 {
-	unsigned char endsWithChar = 0;
-	unsigned int stringLen = getStringLen(string);
-	if (string[stringLen-1] == checkForChar)
+	return charsLength(stringToFindLength->chars);
+}
+
+boolean stringEndsWith(string searchString, const char checkForChar)
+{
+	boolean endsWithChar = false;
+	unsigned int searchStringLen = stringLength(searchString);
+	if (searchString->chars[searchStringLen-1] == checkForChar)
 	{
-		endsWithChar = 1;
+		endsWithChar = true;
 	}
 	return(endsWithChar);
 }
 
-int compareStrings(const char* str1, const char* str2) 
+int compareStrings(string str1, string str2) 
 {
 	// string1 < string2 => return a negative integer
 	// string1 > string2 => return a positive integer
 	// string1 = string2 => return 0
-    while(*str1 && (*str1 == *str2)) 
+    const char* str1Offset = str1->chars;
+    const char* str2Offset = str2->chars;
+    while(*str1Offset && (*str1Offset == *str2Offset)) 
     {
-        str1++;
-        str2++;
+        str1Offset++;
+        str2Offset++;
     }
-    return(*str1 - *str2);
+    return(*str1Offset - *str2Offset);
+}
+
+boolean isDigit(const char character)
+{
+    boolean digit = false;
+    if (character >= '0' && character <= '9')
+    {
+        digit = true;
+    }
+    return digit;
+}
+
+boolean isAlpha(const char character)
+{
+    boolean alpha = false;
+    if (character >= 'a' && character <= 'z'
+    ||  character >= 'A' && character <= 'Z')
+    {
+        alpha = true;
+    }
+    return alpha;
+}
+
+boolean isAlphaDigit(const char character)
+{
+    boolean alphaDigit = false;
+    if (isAlpha(character) || isDigit(character))
+    {
+        alphaDigit = true;
+    }
+    return alphaDigit;
+}
+
+void stripStringTerminators(const char* charsToSearch, size_t length)
+{
+    unsigned char* offset = (unsigned char*)charsToSearch;
+    for (size_t idx = 0; idx < length; idx++)
+    {
+        if (idx != length-1 && *offset++ == '\0')
+        {
+            *offset = ' ';
+        }
+    }
 }
