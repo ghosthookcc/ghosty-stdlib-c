@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdint.h>
 
 #define ARENAENTRYTAKEN ((unsigned int)~0)
 
@@ -22,7 +23,7 @@ typedef struct arena_t
 arena initArena(size_t storageSizeInBytes, size_t alignment);
 arena initArenaFromArena(arena other, size_t storageSizeInBytes);
 
-void insertIntoArena(arena targetPtr, void* data, size_t dataLength, unsigned int idx);
+void insertIntoArena(arena targetPtr, void* data, size_t dataLength, size_t offset, unsigned int idx);
 
 void getArenaAtIndex(arena targetPtr, void* out, unsigned int idx, size_t size);
 void* getArenaMemoryAtIndex(arena targetPtr, unsigned int idx, size_t size);

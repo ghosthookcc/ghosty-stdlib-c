@@ -50,10 +50,9 @@ void pushChars(string* target, char* item)
 void copyChars(string* target, const unsigned char* source, size_t length)
 {
     size_t skipAmountChars = 0;
-    while (*source == '\0' && skipAmountChars < length)
+    while (*source++ == '\0' && skipAmountChars < length)
     { 
         skipAmountChars += 1;
-        *source++;
     }
 
     length -= skipAmountChars;
@@ -185,8 +184,8 @@ boolean isDigit(const char character)
 boolean isAlpha(const char character)
 {
     boolean alpha = false;
-    if (character >= 'a' && character <= 'z'
-    ||  character >= 'A' && character <= 'Z')
+    if ((character >= 'a' && character <= 'z')
+    ||  (character >= 'A' && character <= 'Z'))
     {
         alpha = true;
     }

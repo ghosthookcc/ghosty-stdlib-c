@@ -179,14 +179,32 @@ int main(void)
 
 	timerStart(&hashTableTimer);
 	/* Start testing of hashtable functionality */
-	openHashTable testOpenHashTable1 = initOpenHashTable(UnsignedIntEqual, 4, 8);
-	
-	int testOpenKey1 = 44;
-	double testOpenValue1 = 2131.232;
-	insertIntoOpenHashTable(&testOpenHashTable1, 
-						    &testOpenKey1, &testOpenValue1);
+	HashTable testHashTable1 = initHashTable(UnsignedIntEqual, 4, 8, 1, 1024);
 
-	keyPair testOpenKVP1 = searchOpenHashTable(&testOpenHashTable1, &testOpenKey1);
+	int testHashTableKey1 = 2;
+	double testHashTableValue1 = 2312.22;
+	insertIntoHashTable(testHashTable1, 
+						    &testHashTableKey1, &testHashTableValue1);
+
+	int testHashTableKey2 = 2;
+	double testHashTableValue2 = 231231.2;
+	insertIntoHashTable(testHashTable1,
+							&testHashTableKey2, &testHashTableValue2);
+
+	keyPair testHashTableKeyPair1 = searchHashTable(testHashTable1, &testHashTableKey1);
+
+	DebugPrint("Key1 :: %d ; Value1 :: %.3f ;\n", *(int*)testHashTableKeyPair1->key, *(double*)testHashTableKeyPair1->value);
+
+	int idx = 0;
+	while (idx < testHashTable1->capacity)
+	{
+		int someTestKey1 = idx;
+		double someTestValue1 = 1.0 * someTestKey1;
+
+		insertIntoHashTable(testHashTable1,
+								&someTestKey1, &someTestValue1);
+		idx += 1;
+	}
 	/* End testing of hashtable functionality */
 	timerStop(&hashTableTimer);
 	timerPrintDelta(hashTableTimer, "HashTableTests: ");
@@ -213,7 +231,8 @@ int main(void)
 	freeQueue(&queueTest);
 	freeLinkedList(&testLinkedList);
 	//freeChainedHashTable(&testchainedHashTable1);
-	freeOpenHashTable(&testOpenHashTable1);
+	freeHashTable(testHashTable1);
+	freeKeyPair(testHashTableKeyPair1);
 	freeArray(&testArray1);
 	/* End testing of memory freeing functionality */
 	timerStop(&memoryFreeTimer);

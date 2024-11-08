@@ -6,12 +6,11 @@ arena initArena(size_t storageSizeInBytes, size_t alignment)
 	newArena->storageSizeInBytes = storageSizeInBytes;
 	newArena->realStorageSizeInBytes = 0;
 
-	newArena->storage = _aligned_malloc(storageSizeInBytes, alignment);
+	newArena->storage = aligned_alloc(alignment, storageSizeInBytes);
 
     if (newArena->storage == NULL || ((uintptr_t)newArena->storage % alignment) != 0) 
     {
-        printf("Error: Memory allocation failed or is misaligned.\n");
-        // Handle the error, possibly by freeing and returning NULL
+        printf("[-] Memory allocation failed or is misaligned . . .\n");
     }
 
 	memset(newArena->storage, ARENAENTRYTAKEN, storageSizeInBytes);
@@ -49,14 +48,14 @@ arena initArenaFromArena(arena other, size_t storageSizeInBytes)
 	return newArena;
 }
 
-void insertIntoArena(arena targetPtr, void* data, size_t dataLength, unsigned int idx)
+void insertIntoArena(arena targetPtr, void* data, size_t dataLength, size_t offset, unsigned int idx)
 {
 	if (targetPtr->realStorageSizeInBytes + dataLength > targetPtr->storageSizeInBytes) return;	
 
     if (idx != ARENAENTRYTAKEN)
     {
-        unsigned char* insertAtMemoryAddress = targetPtr->storage+(idx * dataLength);
-        memcpy(insertAtMemoryAddress, data, dataLength);
+    	unsigned char* destination = targetPtr->storage+offset+(idx*dataLength);
+ 		memcpy(destination, data, dataLength);
     }
     else 
     {
@@ -78,10 +77,10 @@ void* getArenaMemoryAtIndex(arena targetPtr, unsigned int idx, size_t size)
 
 void freeArena(arena targetPtr)
 {
-    //if (targetPtr->parent == NULL)
-    //{
-    //    _aligned_free(targetPtr->storage); 
-    //}
+    if (targetPtr->parent == NULL)
+    {
+        free(targetPtr->storage); 
+    }
     free(targetPtr);
 }
 
