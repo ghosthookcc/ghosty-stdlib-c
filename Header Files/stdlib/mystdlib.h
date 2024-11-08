@@ -1,6 +1,7 @@
 #ifndef MY_STDLIB_H
 #define MY_STDLIB_H
 
+#include "bit.h"
 #include "boolean.h"
 #include "common.h"
 #include "dArray.h"
