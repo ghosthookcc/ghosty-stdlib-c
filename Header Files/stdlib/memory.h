@@ -9,6 +9,17 @@
 
 #define ARENAENTRYTAKEN ((unsigned int)~0)
 
+#ifndef MEMORYMACROS
+#define MEMORYMACROS
+    #if defined(__linux__)
+    #define gsalignedAlloc(alignment,size) (aligned_alloc(alignment, size))
+    #define gsalignedFree(block) (free(block))
+    #elif defined (_WIN32)
+    #define gsalignedAlloc(alignment,size) (_aligned_malloc(size, alignment))
+    #define gsalignedFree(block) (_aligned_free(block))
+    #endif
+#endif
+
 typedef struct arena_t
 {
 	size_t storageSizeInBytes;
