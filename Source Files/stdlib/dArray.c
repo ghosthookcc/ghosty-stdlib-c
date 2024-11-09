@@ -144,6 +144,17 @@ void pushArray(tArray* targetPtr, void* item)
 	dtarget->realSize = newSizeIdx;
 }
 
+void pushMultipleArray(tArray* targetPtr, void* itemsStart, size_t length)
+{
+    tArray dtarget = *targetPtr;
+
+    unsigned char* itemsStartPtr = (unsigned char*)itemsStart;
+    for (size_t idx = 0; idx < length; idx++)
+    {
+        pushArray(targetPtr, itemsStartPtr+(idx * dtarget->memberSize));
+    }
+}
+
 void getArrayAtIndex(tArray* targetPtr, void* outData, unsigned int idx)
 {
 	tArray dtarget = *targetPtr;

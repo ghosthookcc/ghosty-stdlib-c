@@ -73,6 +73,8 @@ void expandArray(tArray* targetPtr);
 
 void pushArray(tArray* targetPtr, void* item);
 
+void pushMultipleArray(tArray* targetPtr, void* itemsStart, size_t length);
+
 void getArrayAtIndex(tArray* targetPtr, void* outData, unsigned int idx);
 
 void freeArray(tArray* targetPtr);
