@@ -10,10 +10,13 @@
 #include "boolean.h"
 #include "dArray.h"
 #include "memory.h"
+#include "string.h"
 
 #define BYTESINMB 1000000
 
 #define unsignedIntEqual UnsignedIntEqual
+#define stringEqual StringEqual
+#define charsEqual CharsEqual
 
 typedef boolean(*equalCallback)(void* data, void* otherData);
 
@@ -55,5 +58,7 @@ keyPair initKeyPair(void* key, void* value,
 void freeKeyPair(keyPair targetPtr);
 
 boolean unsignedIntEqual(void* data, void* otherData);
+boolean stringEqual(void* data, void* otherData);
+boolean charsEqual(void* data, void* otherData);
 
 #endif // hashTable_H

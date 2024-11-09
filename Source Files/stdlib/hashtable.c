@@ -218,3 +218,29 @@ boolean unsignedIntEqual(void* data, void* otherData)
     boolean isEqual = (data_t == otherData_t);
     return isEqual;
 }
+
+boolean charsEqual(void* data, void* otherData)
+{
+    const char* data_t = *(char*)data;
+    const char* otherData_t = *(char*)otherData;
+
+    string dataStr = initString();
+    string otherDataStr = initString();
+
+    pushChars(&dataStr, data_t);
+    pushChars(&otherDataStr, otherData_t);
+
+    boolean isEqual = (compareStrings(dataStr, otherDataStr) == 0);
+    freeString(&dataStr);
+    freeString(&otherDataStr);
+    return isEqual;
+}
+
+boolean stringEqual(void* data, void* otherData)
+{
+    const string data_t = *(string*)data;
+    const string otherData_t = *(string*)otherData;
+
+    boolean isEqual = (compareStrings(data_t, otherData_t) == 0);
+    return isEqual;
+}
