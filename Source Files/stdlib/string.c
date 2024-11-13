@@ -47,22 +47,36 @@ void pushChars(string* target, char* item)
 	targetDerefed->chars[targetDerefed->realSize] = '\0';
 }
 
-void copyChars(string* target, const unsigned char* source, size_t length)
+size_t copyChars(string* target, const unsigned char* source, size_t length)
 {
-    size_t skipAmountChars = 0;
-    while (*source++ == '\0' && skipAmountChars < length)
-    { 
-        skipAmountChars += 1;
-    }
-
-    length -= skipAmountChars;
-
-    char* tmpData = malloc((sizeof(char) * length) + 1); 
+    char* tmpData = malloc((sizeof(char) * length) + 1);
     memcpy(tmpData, source, length);
+    tmpData[length] = '\0';
+
+    pushChars(target, tmpData);
+    free(tmpData);
+
+    return length;
+}
+
+size_t moveChars(string* target, const unsigned char* source, size_t length)
+{
+    char* tmpData = malloc((sizeof(char) * length) + 1); 
+    for (size_t idx = 0; idx < length; idx++)
+    {
+        if (source[idx+1] == '\0')
+        {
+            length = idx;
+            break;
+        }
+        tmpData[idx] = source[idx];
+    }
     tmpData[length] = '\0'; 
 
     pushChars(target, tmpData);
     free(tmpData);
+
+    return length-1;
 }
 
 void printString(string target)
@@ -128,6 +142,21 @@ void freeStringArray(stringArray* target)
 }
 /* End stringArray definition */
 
+int charsSubstring(char* searchChars, const char* lookForWord)
+{
+    /*
+    while (*searchChars++ != '\0')
+    {
+        if (
+    }
+    */
+    return -1;
+}
+int charsSubstringInRange(char* searchChars, const char* lookForWord, int range)
+{
+    return -1;
+}
+
 unsigned int charsLength(const char* chars)
 {
     const char* offset = chars;
@@ -137,7 +166,7 @@ unsigned int charsLength(const char* chars)
 		offset++;
 		len++;
 	}
-	return(len);    
+	return(len);
 }
 
 unsigned int stringLength(string stringToFindLength)

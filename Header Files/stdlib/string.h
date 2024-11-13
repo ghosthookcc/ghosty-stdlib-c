@@ -24,7 +24,8 @@ void pushChar(string* target, char item);
 
 void pushChars(string* target, char* item);
 
-void copyChars(string* target, const unsigned char* source, size_t length);
+size_t copyChars(string* target, const unsigned char* source, size_t length);
+size_t moveChars(string* target, const unsigned char* source, size_t length);
 
 void printString(string target);
 
@@ -45,6 +46,9 @@ void pushString(stringArray* target, string item);
 void printStringArray(stringArray* target);
 void freeStringArray(stringArray* target);
 /* End stringArray declaration */
+
+int charsSubstring(char* searchChars, const char* lookForWord);
+int charsSubstringInRange(char* searchChars, const char* lookForWord, int range);
 
 unsigned int charsLength(const char* chars);
 unsigned int stringLength(string stringToFindLength);
